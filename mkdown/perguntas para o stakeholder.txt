@@ -1,0 +1,17 @@
+- Porque o faturamento ConsigCar está na tabela de vendas Alucar?
+
+- Porque o nome dos vendedores (funcionários) não está na tabela de despesas?
+
+- O funcionário tem só o nome?
+
+- Tenho um banco de cadastro de funcionário?
+
+- Budget? Quais tipos de ferramentas podemos utilizar?
+
+- Arquitetura recomendada (camada silver com relações/bigtable)?
+
+- Dados completos dos clientes?
+
+- O que você quer enxergar neste dashboard? Atrativo para saída do Excel
+
+- Quantos acessos essas tabelas tem? Quantos concomitantes?

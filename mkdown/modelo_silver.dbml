@@ -1,0 +1,60 @@
+Table fato_vendas_alucar {
+  id_venda_alucar int [pk, increment]
+  id_cliente int [ref: > dim_cliente.id_cliente]
+  id_data int [ref: > dim_tempo.id_data]
+  valor_venda decimal
+  forma_pagamento varchar
+}
+
+Table fato_vendas_consigcar {
+  id_venda_consigcar int [pk, increment]
+  id_cliente int [ref: > dim_cliente.id_cliente]
+  tipo_produto varchar
+  valor_total decimal
+  parcelas int
+  valor_parcela decimal
+  vendedor varchar
+  comentarios text
+  id_data int [ref: > dim_tempo.id_data]
+}
+
+Table fato_despesas_alucar {
+  id_despesa_alucar int [pk, increment]
+  categoria varchar
+  nome_despesa varchar
+  valor decimal
+  id_data int [ref: > dim_tempo.id_data]
+}
+
+Table fato_despesas_consigcar {
+  id_despesa_consigcar int [pk, increment]
+  categoria varchar
+  nome_despesa varchar
+  valor decimal
+  id_data int [ref: > dim_tempo.id_data]
+}
+
+Table fato_faturamento_pagseguro {
+  id_faturamento int [pk, increment]
+  id_data int [ref: > dim_tempo.id_data]
+  valor_faturado decimal
+  observacoes text
+}
+
+Table dim_tempo {
+  id_data int [pk] // Ex: 20250102
+  data date
+  dia int
+  mes int
+  ano int
+  nome_mes varchar
+  dia_da_semana varchar
+  trimestre int
+}
+
+Table dim_cliente {
+  id_cliente int [pk, increment]
+  nome_cliente varchar
+  whatsapp varchar
+}
+

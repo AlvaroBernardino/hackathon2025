@@ -1,0 +1,809 @@
+Olá, fazendeiro. 
+Preciso de uma master ajuda sua. Seguinte: Entrei em um Hackathon da EmpregaDados, consiste
+em um projeto de grupo no qual deveremos desenvolver um pipeline para ingerir, transformar
+e entregar dashboards para um stakeholder fictício.
+Primeiro, vou falar do meu time para que você entenda com quem estou trabalhando:
+Laerte: Líder da equipe, porém não possui muita experiencia com as ferramentas de Engenharia de Dados, mas é Analista com uma certa experiência. Ainda não sabe muito bem de SQL e Python. Nível Júnior em Engenharia de Dados.
+Diego: Também iniciante na Engenharia. Já manja um pouco de SQL, Python, coisas assim. É analista também. Nível Júnior em Engenharia de Dados.
+Caio: Inciante em Engenharia de Dados. Tem experiencia com MRE, regras de negócio e como Analista. Nível Júnior também.
+Luiz: Esse cara sinto que tem mais experiencia que os demais em Engenharia de Dados e na parte do código. Também se cadastrou como Junior.
+Álvaro (eu): Manjo Python, SQL, me viro bem com Arquitetura de Bancos de Dados. Fiquei meio que como "líder" da equipe na prática, no sentido de empurrar a galera para fazer as tarefas e jogar algumas definições. Nível Pleno.
+
+Agora vamos ao desafio:
+Primeiro, vou te enviar uma transcrição completa da reunião com todos os participantes do Hackathon, na qual o Patrick nos mostrou as requisições e as tabelas com as quais iremos trabalhar. Aqui vai:
+====================================================
+
+Primeiro, vou apresentar aqui a base de dados pra vocês. Vocês estão vendo aqui a, a minha base de dados, a base de dados. Vocês estão vendo aqui a modernizar a base da empresa que não é tecnológica. Estão vendo aí? Aqui já apareceu.
+
+Vocês aparecendo. Já apareceu. Boa. Vamos lá. Então aqui, é 1 parte simples do que eu quero.
+
+Tá? Bem por cima. Lembrando que a minha opinião pode mudar conforme o tempo. Opa, eu só tinha que interromper mais ou menos perguntas vai ser posterior ou a gente pode te interrompendo? Não, depois daqui pode, eu vou apresentar as bases primeiros, tá?
+
+Aí depois vão anotando as pergunta, a gente faz 1 ação de pergunta final. Até que fica mais fácil pra, quem for assistir o vídeo já deixa as perguntas pro final. Aí. Então vamos lá, base tá? É o seguinte essa empresa ela tem 2 ramos aqui, ela tem a empresa Alucard, e a Consicar.
+
+Alucard, ela aluga carro. Vou dar zoom aqui pra vocês. E aí ela tem essa base aqui do das pessoas que entraram nela, janeiro, todo mundo que alugou carro e o valor que pagou. E ela tem a a consegui Car. A conseguicar ela é ela pega consignado é como se fosse consórcio.
+
+Então a pessoa contrata ali valor sei lá ela pega ah eu quero viajar pra no pra pra Bahia e aí ele faz cálculo isso aí vai dar 5000 então ele parcela isso pra pessoa em 10 vezes 12 vezes 20 vezes ela vai pagando quando ela termina de pagar ela tem essa carta de crédito e ela consegue usar pra alugar carro. Então aqui a gente tem a base de vendas da Alucard que está aqui, tá? E aqui, é a base, tá? Consegui Car, que é consiginada. Então, está meio que tudo junto, Vai ser meio, meio complexo pra entender aqui, mas nós vamos entender.
+
+Vamos primeiro aqui na base da, alocar e conseguir carne. Então, o que que vocês têm aqui, olha? Tá? Primeiro, a gente tem essa parte aqui, olha, que é a da alocar. Então, é de aluguel.
+
+Você pode até colocar aqui, ó, mais fácil aqui, alocar. Vamos lá, tem janeiro, as pessoas que alugaram, o dia e o valor. Tá? Tem aqui, só tem a base de 2025 pra vocês atuarem. Está aqui, beleza.
+
+Aqui, cara é 1 coisa a lucrar ela vem de jeito diferente então o que que ela traz de dados de receita ela só traz o valor total que dá no mês vocês vão ter a planilha dela ali mostrando que cada pagou só que a pessoa vai pagando e ela usa em algum mês. Quando ela usa, esse dinheiro entra para a empresa. Então, só conta quando a pessoa usa. Então, vocês vão ter 1 base aqui que é o que ela fez, de de, é o valor que ela fez ali para, de consórcio. Só que isso não impacta no resultado da empresa, o resultado está aqui olha.
+
+Então, janeiro, ela recebe ali sempre pelo PagSeguro, então, recebeu 35000, fevereiro 50 e 1000, março 34000, tá? E por aí vai. Então, beleza, depois a gente tem as despesas das 2 empresas. Então, a despesa está simples, ó, está aqui o valor de todas as pessoas, tá? Da primeira que é da e depois tem da, está aqui olha, todo o valor que ela gastou com, tráfego pago.
+
+As pessoas aqui, quando está o nome quer dizer que é funcionário da empresa, então, quanto que ela pagou de salário pra essas pessoas todos os meses. E aqui tem 1 coisa interessante, olha. Até maio, é o que ela gastou. Tá? De junho pra frente, esses meses não chegaram ainda.
+
+Isso aqui é 1 projeção, do do que ela acha que vai gastar nesses meses. Isso não é real. Aí então é 1 projeção. Então, vocês podem, por exemplo, aqui fazer desse desse valor. É praticamente né?
+
+Ela falou, ó, mais ou menos a gente vai gastar isso nos próximos meses, Mas é o quê? Não é real. Real é até maio. Vocês podem considerar isso e pode considerar o resto como então pode mudar esses valores aqui pra frente. Mesma coisa é a despesa da ConseguiCar.
+
+Então, está aqui os valores, bem bem simples. E depois aonde que hoje, eu aqui que sou da empresa, aonde eu olho o resultado? Eu olho aqui, olha, eu olho o financeiro mensal. Então, eu tenho aqui, olha, a receita, tudo que entra na empresa, tanto da Lucar quanto da Aqui pra, não sei lá, deixa eu ver se, que que tem aqui. Esse aqui, esse aqui amarelo é o, é a previsão, né?
+
+É o né? É a previsão, É o. Previsão. Lá, então, dá pra mudar o valor lá, ele vai mudar aqui, está tudo, aqui já está tudo puxando, né? Então, aqui está lá.
+
+Realmente, é o que, é o que a pessoa usa hoje. Ela abre aqui e fala, deixa eu ver, quanto eu locrei aqui em abril, ó. Eu faturei 44. Eita bruta, só pra ficar aqui simples, ó. E receita, líquida.
+
+Todo mundo está já, entende aí? Bruta é tudo que entrou, tudo que saiu e isso aqui é o resultado, de do outro, beleza? Depois bote, que não tiver, não entender esses nomes, é só jogar no no Google ali, é simplesinho. Então, ele mostra até que em maio, olha, só tem isso aqui por enquanto. E aí amarelo é é o.
+
+Então, o máximo que tem aqui até agora é o de, abril. Então, aqui ela consegue ver todo o valor que tem e o resultado que deu, olha. Então, está aqui, os meses que deu negativo. Tá? Quanto que deu no final, o que deu e tudo mais, e está aqui resultado, todos os meses, todos os resultados.
+
+Beleza? Receita líquida despesa, receita bruta. Está puxando. Então, eu quando eu quero saber quanto faturou no mês 4, eu olho aqui, ó. Eu não tenho, eu tenho até gráficozinho, ó.
+
+Olha, mas você já viu que é ruim, né? Ó, mês 11. Então, não dá pra confiar nesse nesse gráfico. Mas é o que eu olho aqui todo mês, então consigo ver. E quando eu quero saber o anual, como é que está?
+
+Eu olho aqui, ó. Então, eu tenho, o anual, ó, aqui até já está estava escrito, né? Receita líquida, despesas gerais, receita bruta, né? Despesas gerais e líquida. Então, aqui é quando faturou tudo que saiu e o que sobrou no caixa.
+
+Tá? O gol de som. Você já está operando no prejuízo aí, né? Verdade isso. Aqui está.
+
+A locar está está no prejuízo. Então dá pra ver 2025 aqui que já está está ruim. E a consegue ficar consegue tocar já tá no tá no lucro aqui por enquanto né Oi e a gente tem até total dos 2 ali para mostrar como que tá a empresa em geral juntando as 2 Então juntando as 2. Olha gente está negativo aqui. Tinha que estar até vermelhinho.
+
+Então já viu que tem umas coisa errada, o cara já não consegue ver direito, resultado. É isso, que também está vermelhinho. Pronto. Mas beleza, esse é o total da esse é o que a empresa tem. Fora isso, cara, que que a empresa tem?
+
+A empresa tem sistema de, ainda, tá? Então ela paga 1 parte do, dos lucros ali, pra pro pessoal, tá? Então, PLR, participação dos lucros e resultados. E como que funciona o PLR dessa empresa? Ela tem aqui as vendas da Alucard.
+
+Ela tem as vendas da Consigicar. E ela tem aqui a parte que cada fez mas vamos voltar lá do 0 a gente já vai ali. Então o que que ela acontece ela paga PLE com base nas metas então tem meta e meta 2 tá meta se fizer 22 vendas meta 2 se fizer 30 vendas. E aqui mostra quanto foi feito no mês, ó, fez 20. No mês 2, a gente fez 43, quase chegou na meta No mês 3 aqui, 50 e 58, mês 4 73.
+
+Então já mostra que a gente não está batendo as metas, mas é o que está acontecendo. O importante é, só vale quando chega no final. Então, se chegar no último mês e bater esses 264, vai bater a meta. A meta não é mensal é anual pra ele é. Então, no final do ano, vê se bateu a meta.
+
+Aqui é só pra pessoa entender se está indo no caminho ou não. Então já dá pra imaginar se tivesse algum gráfico e mostrasse, ó, quanto que a gente está chegando perto da meta, seria o ideal pra pessoa visualizar. E todo mês, né, o pessoal faz 1 reunião mensal e mostra ali pras pessoas como que está. Então a gente tem as próximas metas, pode falar. Patrick só sobra parênteses.
+
+Essa meta da PDR é a soma dos 2 aí, meta meta 2? Não. Se ele bater a meta é o resultado final. Então, vamos pôr aqui, olha. Ó.
+
+1, 2 metros. É porque lá na planilha, ela é acumulativa né? Mês, segundo mês é somando o primeiro mês que o segundo ele vai acumulando as metas. Não é a meta que aumentou né? Isso aí, as metas e 2.
+
+Exatamente ela só está vou mostrar aqui como que é o cálculo aqui dentro oh. Então o que que acontece? O que que ele quer aqui todo mês pra você bater a meta, todo mês você tem que fazer 22 vendas. Está vendo que aqui é 22? Aqui é, d 4 mais 22, e aqui é 30.
+
+Então, no final você tem que bater isso aqui, ó. 264 você ganha, você bate 1 meta. E aqui a gente tem o resultado, ó. Se você bater 1 meta, você tem meio salário a mais. Se você bater 2 metas, você tem salário a mais.
+
+Vamos colocar aqui talvez 3 metas, tá? Que são 4 no final, né? Então 3 metas e 4 metas. Vamos lá. Então você tem 2 metas aqui na.
+
+E 1 aqui na Consicar. Aqui o que acontece? Não batemos nenhuma meta por enquanto né, do jeito que está agora parcial porque a meta a gente só vai saber no final. Se bater as 2 aqui, 360 bateu as 2 metas, todo mundo feliz, tá. Aqui a gente tem a outra também, que vai somando.
+
+E aqui, olha que legal, em abril a gente já, se a gente bateu a meta Tem a meta 2 que seria pouco mais, e aí faltou pouco, mas não bateu. Então aqui vai dar pra você ver olha, hoje, eles estão batendo 1 meta das 4 e aí ganharia meio salário. Mesmo a empresa dando prejuízo, eles ainda estão batendo 1 meta. E aqui você tem parcial. Esse parcial é o que a pessoa leva na reunião mensal, então todo mês, ele chama 1 reunião e fala pessoal é assim que a gente tá ó a gente pra bater 1 das metas era 66 e 90 então meta e meta 2 meta e meta 2.
+
+Então, está aqui, ó, meta tinha que ser 66 e a gente fez quanto? 58. Meta 2 90, a gente está abaixo nas 2. Só que na Consicar, na Consicar, 1 das metas bateu. Metal está com 86 e a meta 2 96, então, 1 bateu.
+
+Então, por enquanto a gente tem 1 meta batida. Todo mês isso atualiza. Então, se for ver isso aqui é do mês de abril. Né? A gente já está no mês de, é, você tem que fazer agora referente ao mês de abril.
+
+Mas está com o resultado? Oh, não. Se você for ver, está com o resultado do mês de março. Está vendo? Oh, 86 e 58.
+
+Por quê? Não está automático. Isso aqui, pode ver, olha, não está com com fórmula. Então, o cara faz na mão. Todo mês ele olha aqui, ah, a gente está no mês de abril, ele copia aqui o resultado, ele coloca manualmente aqui e vai apresentar pra equipe.
+
+Então, era legal se já tivesse isso também já projetado, pra pessoa poder ver ali, como que ela está, abaixo, acima, olha, parcial do do mês. É legal se tivesse. E aqui é a meta, anual e tudo mais. Tá? Vocês vão decidir se precisa mostrar isso aqui e tal.
+
+Mas seria legal ter que a pessoa consiga visualizar certinho. E talvez só tirar e depois levar pra pra ou apresentar nesse painel, ó, esse é o mês de abril, esse é o mês de maio. Tá? Então, essa é a parte. Deixa eu desativar aqui.
+
+Boa. Beleza? Até aqui. É a parte de PLR, é mais 1. Eu vou mostrar ali o que que cada coisa que, que eu tenho.
+
+Aqui a gente tem outra base. Essa base, que já é o do consignado, que que a gente tem aqui das pessoas? Tá? A gente tem, o nome da data do pagamento, quando ela pagou. Tá?
+
+O tipo, então você vai ver que tem 2 tipos aqui, ó. Ou for 1 venda completa ou 1 venda menor. Tá? Então, vai ter que ter essa diferenciação, só olhar aqui o nome da pessoa, o número. E aqui, o plano que ela pegou.
+
+Então, aqui o plano que ela pegou foi 18 vezes de 1100 e pouco. Então, o valor total aqui é 18 vezes isso e vai ter o valor total aqui que ela pagou. Esse aqui olha, quantas parcelas que ela vai pagar e o valor da parcela. Então, está bem aqui. E o importante dessa planilha, que é, quem vendeu com essa pessoa.
+
+Essa empresa, ela tem 1 coisa interessante. Ela bonifica os vendedores dela, por venda feita, tá? Então, a gente tem que, olha, os vendedores Tiago, Fernanda, tal, Tiago, Gustavo. E tem aqui, todos os vendedores. E o que acontece?
+
+No final do mês, os que mais vendem ganham prêmio. Então, a gente precisa ter ranking de vendedores aqui. Os clientes não faz tanta importância aqui. Tá? O que importa pra gente é quantos o Gustavo vendeu no mês de então agora no mês de abril.
+
+E quem mais vendeu no mês de abril quantas vendas foram e talvez qual o valor ali que ele vendeu talvez trazendo o valor da da parcela e tudo mais então vai ver a Letícia Rodrigo Letícia bastante vendas aqui nesse mês de, de abril. Então isso é importante, tem ranking de vendedores, tá? Então vou mostrar pra vocês aqui. E tem E tem outra coisa também que eu vou trazer aqui. Durante o mês, além de ter o ranking de vendedores, quanto eles estão vendendo por mês, tá?
+
+De vez em quando, a nossa empresa a gente faz eventos. E nesse evento a gente premia quem mais vende, sei lá, então, os últimos 10 dias do mês. Quem vender mais nos últimos 10 dias do mês ganha 2000 extra. Então, tem esses eventos. Vocês vão precisar pensar em algum em algum sistema que se tiver evento a gente consegue fazer alguma coisa apertada só pra ir somando aqui mostrando quando a que o cara consiga pegar sei lá com 1 faixa de dias e 1 faixa de ir separado por vendedor, e ele conseguir se eu começar evento do dia 20 ao dia 30, eu consigo filtrar isso lá no no painel que vocês vão fazer, que com isso eu vou conseguir ver quem são os que estão mais vendendo.
+
+E aqui, olha, eu vou trazer tudo o que a gente quer ver. Algumas coisas já estão criada e outras, vocês vão criar. Primeira coisa, visão mensal. Isso a gente já tem aqui, né? A parte mensal.
+
+É aqui que a pessoa olha. Então, é difícil prum prum gerente ele vir olhar pra esse tanto de número. Se estivesse mais fácil, né? Visualmente pra ele, legal. Visão anual também já está ali já está ali 1 coisa que não tem que que eu poderia criar forcast de vendas bom então forcast de vendas vocês vão buscar como cria forcast Então você pode olhar pra trás pro histórico oh se vendeu tanto nesses meses, quanto será que vai vender nos outros?
+
+Esse forcagem vocês podem olhar pra anos anteriores está certo que não tem dados aqui vai ser difícil fazer mas você pode conferir o janeiro desse ano com janeiro do ano passado, ou ver o que já vendeu, ah geralmente está vendendo 30, vendeu 28, 30, 32, próximo mês deve ser 34. Então vocês podem calcular esse esse. Ah, a gente não tem 1 fórmula. Então vocês vão trazer como como a mais aí. Olha, eu pensei nesse tipo de de pra vocês.
+
+Ah, mas pra ter que ter alguma, tem que ter histórico não, né? Do ano passado? Ah, a gente não tem histórico do ano passado. Não tem. Enquanto não.
+
+Eu não. Vocês podem até, sei lá, duplicar ali, usar a mesma base. Mas pode usar regra. Se vocês quiserem duplicar a base, usar ali como regra, ó, vocês já vão ter nos próximos anos, a gente vai basear assim. Porque é o jeito melhor de fazer.
+
+Cara, legal. Vou avaliar essa essa parte também. Visão do PLR com metas, já tem ali, vocês viram, tá? Isso de 1 forma. 1 coisa extra, criar DRE da empresa.
+
+Essa empresa hoje a gente não tem DRE. Então vai ficar com por vocês trazer 1 página de D r. Que que é DRE? Vocês vão ter que pesquisar. Se digitar aqui DREE clicar em imagens, vocês vão ver vários exemplos de DRE de empresa, olha, está aqui, olha.
+
+Olha, aí, tal, olha aqui que ele olha a receita, receita líquida lucro, os valores e tudo mais. Está aqui vários modelos de, de DRE. Toda empresa deve ter DRE. Essa, não tem. E agora ficou pra vocês também criarem essa parte.
+
+Ranking de venda mensais por vendedores. É o que a gente conversou, ali, tá? Ranking de vendas por exemplo, por evento, então, evento quer dizer que a pessoa ia ter que colocar na mão esses valores, mas talvez se vocês deixarem ali o o com, ó, se o evento for de tal dia tal dia ele consegue filtrar aqui, e ver só referente a essa faixa de tempo. Tá? Se que conseguir criar 1 outra coisa, pensar 1 coisa diferente, mas se tiver bem ali a pessoa conseguir filtrar pela quantidade de dias e poder ver o ranking dos vendedores, o resultado deles naquele tempo.
+
+Patrick a tua base está a tua base está com a tua base está com a venda diária não ou é só venda venda diária tá a palavra venda diária tá com venda diária ah aqui tá 1 receita Dos vendedores. Ah dos vendedores. Dos vendedores. Dos vendedores. Isso tem aqui olha, dia a dia.
+
+Perfeito. E essa data já que ele Outra cor. É o dia que ele vendeu e é o dia que começa a contabilizar os meses né? Isso é o dia do pagamento. O que vale é o dia que o cara paga.
+
+Então está aqui oh. Ele comprou dia 30 essa data aí. Que eu tenho. Então ele vai entrar não entendi. Fora de novo.
+
+Estou parcelado em, 3 vezes aí no caso né? Então vai entrar 643 dividido em 6 a partir dessa data todo mês. A parcela ela cai. Quando é que é o primeiro pagamento? É nessa data aí do Carmo?
+
+Isso, aqui ele entra? Ele paga. A gente pra falar a verdade a gente não, olha muito pra esse valor. A gente olha mesmo por quê? A pessoa entra.
+
+Naquele mês que ela entrou, no dia 10 que eu estou analisando, ele paga 1 parcela, quando ele entra, no dia 15 ele faz o pagamento dessa parcela, 644 30 e 14. Terço desse valor, né? Mas não é o valor da parcela. Não. É 6 vezes 614.
+
+Eu tinha entendido. Aqui é, a modificação desses caras. O que que é importante pra gente tá? O que esse cara entrou no mês, então tem 6 parcela poderia ter olha valor total desse cara mas o que é importante pra gente é, o dia que ele entrou e o valor da primeira parcela. Talvez até porque é critério de desempate pra gente imagina que a maioria, tá, fez, a maioria não, 2 vendedores fizeram 10 vendas.
+
+E eles estão empatado. Se o Supremo for pra 1 pessoa, pra quem vai, pra quem vendeu teve o maior número, o maior valor que entrou naquele mês. Então imagina aqui que entre esses 2 tá? Isso aqui foi a venda normal maior do Gustavo e da Fernanda e os 2 empataram com o número de vendas cada teve 20 vendas. Só quando você olha aqui oh o Gustavo a parcela dele vai bater 1200 e da Fernanda 614.
+
+Esse é o critério de desempate o Gustavo vai estar na frente. Critério de desempate é valor da parcela maior. É o valor mensal e não acumular pra entrar até o final. Isso, é o valor mensal porque só vale vale está valendo naquele mês. E geralmente os eventos são de, não são de mais de mês, geralmente são dias, olha 10 dias, 15 dias, ou talvez 30 dias.
+
+Mas eles são, eles têm metas de individuais mensais. Então cada vendedor aqui precisa bater número x, que o número aqui seria, sei lá. 30, cada precisa bater 30 no mês. Então vocês podem até colocar, podem até colocar isso só. Aqui, ó.
+
+1 observação aqui, ó. 6. Observação. Cada vendedor tem a meta de 30 vendas por mês. Tá.
+
+Vem aqui. Então o que que acontece? Vou colocar não sei se vai servir pra alguma coisa pra você se alguém conseguir tirar 1 1 ideia melhor. Quando ele bate 18 vendas, ó com 18 vendas, Ele ganha bônus. Tá, bônus Ele ganha valor a mais quando ele faz 18 vendas.
+
+Então se no teste tiver esses marcos olha, talvez forcast quanto falta pra 18 vendas? Pra 30. Tá? Que ele bate. E depois ele tem as metas, a metas é 30 vendas.
+
+Tá? É a meta 42 vendas. Meta 2. Aqui ele ganha bônus, é valor em dinheiro que ele ganha. Então, se, estou dando mais informações, conseguir fazer alguma coisa com isso, mas cada tem 1 meta de 30, só que fora isso, então, isso daqui começa o mês, vai terminar, o vendedor tem que fazer 30 vendas.
+
+Não fez, ele vai ser vai ser penalizado, vai conversar com com ele ali pra ele melhorar. E é aqui que vem que o salário dele aumenta, quando ele bate aumenta 18 ele ganha bônus, pô, bateu 18, você ganha bonezinho ali em valor, sei lá, ganha 1000 reais a mais. Só que fora isso isso é a vida, isso é a vida do cara, esse é o salário que o que o vendedor ganha. Fora isso, às vezes chega gerente que é louco e ele fala assim, pessoal, quem vender mais nos próximos 20 dias eu vou dar iPhone 5. E aí ele coloca na mesa, quem vender mais nos próximos 10 dias ganhou iPhone 5 não existe né, iPhone 15.
+
+Então é mais ou menos isso, ou vai ganhar 3000 reais. Então, o que acontece? Se esse cara, ele tem dificuldades pra pra criar isso. Quando tem esse, quando tem esse ponto, o que que ele faz? Ele cria gráfico no Excel rapidinho, e ele faz mais ou menos isso aqui, ó.
+
+Ele faz tipo assim, ah, desafio de maio. E aí ele colocou, a meta é 20. Meta individual de cada pessoa, 7. Então, ó, nesse desafio, que que era a ideia desse desafio? Tinha 1 meta do time, e vocês podem pensar assim, tem 1 meta do time, o time tem que fazer 20, todos os vendedores.
+
+E tinha 1 meta individual, que é 7. Se o time fizer 20 no total, todo mundo ganha 1000 reais e cada que fizer 7 individual ganha mais 1000. Então, o cara fez 7 e o time bateu 20, ele ganhou 2000 extra. E aqui tinha coisa, ó, Marcelo fez 0 vendas, Rodrigo fez 3, Rafael 5, está ruim a imagem aqui, mas dá pra vender, a Letícia fez, sei lá, 8. E tinha painelzinho, ó, falta 12 pra meta, por quê?
+
+Tinha 8 matrícula, total 20, falta 12. Aí ele fez até gráficozinho de projeção, ó. Ó. A gente está no vigésimo tal dia. Vocês venderam 4?
+
+Está aqui. Se continuar vendendo assim, nessa proporção, ó, não vai dar 20 está vendo? Estava, sei lá, 18, 19 aqui. Vocês podem pensar alguma coisa nesse tipo. Então, eu vou até colocar nesse evento aqui, ó.
+
+Olha, seria legal, ó, esse ranking de eventos. Então, vai ter aqui, ó. Meta, individual. E. E.
+
+Meta de. Equipe. Individual quantidade de venda equipe quantidade de vendas então sei lá individual 7 a equipe 20. Então tem 4 pessoas, se bateu 20 ali todo mundo ganha o valor fora isso ainda tem individual. A equipe não estava ruim, não bateu, você foi o vendedor melhor, você bateu só 7 você ganhou o seu dinheiro.
+
+Beleza. Tem mais outro, pode falar. Só está pouco confuso pra mim porque eu entendo que o vendedor ele é quando ele faz a venda, se foi parcelado eu sei com cobrança tipo assim, eu como vendedor não vou ficar todo mês cobrando do cara que eu vendi e parcelado. E aí você está falando que a parcela seria 1 venda, é isso? Eu tenho que considerar como venda.
+
+Não, é só o dia que ele vendeu, não tem Ah entendi. E aí o valor seria o valor da venda ou o valor da da primeira parcela? Não, o valor da parcela, porque ele eu eu não sei se ele vai terminar de pagar ou se ele vai cancelar entendeu? Se ele cancelar nos próximos meses, o que vale é o valor e esse valor que eu falei ele não tem muita importância ele só serve pra critério de desempate. Entendi porque o que contabiliza mesmo é a quantidade de vendas.
+
+Agora ficou mais claro pra mim era isso que eu estava, meio como é que vai atualizar isso é. Porque a venda não seria na verdade a venda não seria 1200 e pouco seria 1200 e alguma coisa vezes 12 foi à venda mas como ele está pagando em boleto você não tem certeza se o cara vai ter que pagar. Entendi. Aqui como que é a venda ou é boleto ou sei lá aquele que tem 1 parte quando você passa no cartão ali que é tipo assinatura igual Netflix. E aí você não sabe se o cara vai pagar o próximo mês né?
+
+Então esse valor não tem tanta importância ah o vendedor não vendeu aqui é É, é voltada na condução em cima do do valor da venda né você está Exato dando bônus e quantidade de vendas. Exatamente. Então esse valor não tem tanta importância. Ah, quiser ter 1 telinha mostrando, ó, valor ali da parcela e ter alguma coisa, valor total do vendedor, só como exemplo, como se fosse, ó, valor hipotético, né? Potencial de É, pode vender.
+
+É na verdade é é o é o valor do contrato vamos dizer assim total ali né? Só que não é valor 100 por 100 recebido ali né Mas aí mas aí poderia até somar o que foi pago né? Tipo assim os únicos pagos poderiam fazer parte do, do valor da venda né porque ele garantia ele já recebeu aquele valor não foi só a primeira parcela. Isso poderia servir pra desempate. Vocês pegarem o cara no mês de abril aqui, e somar o cara aqui, sei lá, mês de abril os valores que já foram aqui todos.
+
+Por Letícia, vamos pegar aqui no mês de abril o que que ela vendeu. Ó. Então isso aqui que endereço a máxima. Esse é o que está desempate, é a soma disso aqui. Hum.
+
+A parcela é a né? É o que vale né? Exatamente. Esse aqui é o valor da Letícia. Uhum.
+
+É porque no no. No Que é a soma aqui. Que dá pra fazer 1 projeção do que que tem a receber. Beleza? Então é isso aqui.
+
+O resto, podia ser podia ter campinho falando ah, valor do contrato total, tem montante gigante ali, mas não tem importância, a gente não vai tomar nenhuma atitude em cima disso. Pode ser só pra mostrar olha que legal mas aqui da parcela, a gente já vai ter o valor que ela fez no mês, que é o valor que entrou no caixa, que seria isso aqui, olha, no mês de abril, né, ela vendeu esse valor aqui, ó. É isso que é importante. Só que isso é outra coisa, é é critério de desempate. Te vai olhar, vai falar legal, mas o que vale é quantas vendas ela fez?
+
+E é isso aqui, ó. Letícia fez total x de vendas. E a venda só com, só contabiliza com a primeira parcela, beleza. Exatamente. Data do pagamento, ele pagou, começou a valer gerou boleto essa coisa nada disso vale e inclusive aqui não seria mais até geralmente empresa eles falam essa meta ainda fica 7 dias né se alguém cancelar dentro dos 7 dias que é por regra ali a pessoa perde essa venda mas aqui não vai entrar em lugar nenhum mas geralmente é assim que funciona por os vendedores também tá beleza ranking de vendas trazer informações importantes que podem que podem fazer sentido para o negócio.
+
+Então, vocês vão começar a pesquisar, em algum momento você vai ver, cara, isso aqui podia ser importante, e não foi pedido. Eu vou fazer isso a mais e vou entregar. Então isso vai ser 1 das partes que a gente vai vai analisar também no final. Cara, o que que ele trouxe? Isso aqui é importante.
+
+Porque numa, numa empresa muitas vezes igual você tem você tem 1 empresa usando Excel, você vai criar dashboard bonito. Sabe o que que vai acontecer? Eu vou continuar abrindo o Excel e olhando. Você sabe por quê? Porque eu sempre olhei aqui, faz 10 anos que eu abro e eu olho aqui, ó.
+
+E agora você vai fazer painel que eu tenho que clicar num link entrar lá e vai estar num negócio diferente. Então, isso fica de de exemplo pra todo mundo. Como que você faz o cara parar de usar Excel? A maioria reclama disso, né? Aí você fala assim, ah, ele usa, eu fiz lá dashboard bonito, mas ele continua usando Excel.
+
+Sabe como que você faz? Ele parar de usar. É você criando no dashboard 1 coisa que ele não tem no Excel e que era muito importante para ele. Então, a a estratégia que a gente tinha quando eu, quando eu atuava nessas frentes era muitas vezes o cara fala assim, cara, tem alguma coisa que, pô, você queria fazer e que não dá? Aí você fala, pô, é que usando Excel é difícil, né?
+
+Mas seria legal se eu tivesse tal coisa. Essa tal coisa é importante, porque se eu crio isso, ele vai ficar dependente do do meu dashboard, porque ele não tem isso dele. E aí vai ser mais fácil olhar o meu. É o jeito que você faz o cara migrar. Se você fazer o seu igualzinho o o Excel dele, ele vai continuar usando isso.
+
+Ele não vai mudar, não adianta, você vai vai chicotada vai vai Não faz sentido. Não faz sentido não faz jeito de excluir isso de alguma forma. Exatamente. Então quando você traz diferencial, quando você traz 1 coisa que só tem às vezes a gente ia criar e fala assim, cara, mas isso aqui está igualzinho o outro né? Se a gente não fizer nada aqui, a chance dele usar isso aqui é baixa.
+
+A gente criou, quando eu estava na Renner, a gente criou por trás que a gente ficava vendo quantidade de pessoas de usuário que entrava, e a quantidade de vezes. Aí a gente olhava e falava, ó, está tendo 14 acesso do mês. Vamos desativar isso aqui se vocês não usarem, pra não ficar fazendo tanto de dashboard de ninguém usar. E aí o cara, ah mas quem que é os mais importante? Quem, o mais olha aqui sei lá, é o Sandro e o Cleiton.
+
+Por que que eles não estão usando? Aí você vai lá conversar com o Sandro, Sandro e fala, pô, mas é difícil entrar tal, e aqui eu já tenho o Excel, já estou acostumado, alguém me manda por email. E aí você não vai convencer o Sandro. Sandro é gerente lá cara, ele está está nem aí com a sua opinião. E aí você faz negócio que ele não tem.
+
+Talvez forcast 1 projeção negócio diferente que ele não tem que ele vai olhar e vai falar caramba que legal cara e aí ele vai abrir o seu pra ver aquilo e aí está mais fácil ele ver o resto e aí ele abandona o Excel E pronto. Então por isso que eu deixei esse ponto aqui. É outro motivo também de de da pessoa não usar o déficit, às vezes a pessoa que pede a né o gestor pede AA0 analista entende b e no final de entrega c isso é também é de prática acontecer e aí o cara não olha nada o cara não entende porque o cara faz como se ele tivesse como se ele tivesse usando né para ele na realidade não é para ele é para usuário final né que não tem muita experiência na área né mais que olhar dado ali resolver tirar Insight e vazar né? Acontece muito. Acontece muito isso.
+
+Acontece demais, então muitas vezes é quem está te passando a informação é 1 coisa que eu olho muito né, quem está passando informação é quem vai usar? Há muitas vezes a maioria das vezes não é, ele conversou com alguém que usa o cara trouxe a demanda ele traz a demanda de você, pra você, então o que que você tem que fazer? Que que eu faço geralmente? Eu começo a criar e falo, eu quero falar com o usuário. Isso.
+
+Pô é mais ou menos isso que ele quer mas pô consegue fazer 1 reunião de 20 minutos com o usuário? E aí você vai ver com o usuário ele fala não não, não era mais bem isso não, o que eu queria é isso aqui às vezes é muito mais fácil do que você estava criando. Uhum. E a pessoa criou toda a mitologia na idade a criação ela tem que ser de trás para frente né tem que ser da ponta para o usuário para dentro e não de dentro para fora né é assim que para ser usual para ser usual Exatamente isso aí por isso que daqui 2 semanas eu vou entrar grupo a grupo não vai entrar numa reunião com todo mundo então vou chamar a equipe como que tá aí não precisa entrar todo mundo ah 3 pessoas conseguem participar então vamos lá apresenta aí o que que foi feito como é que tá E aí vamos direcionar, olha, é isso. É o encontro que vocês têm pra falar com com o, que é quem demandou.
+
+E aí eu vou olhar e vou falar, cara, isso aí é isso mesmo que eu quero, não, não é isso. E aí vocês vão poder corrigir pra chegar até o até o final. Vocês que vão me perguntar, se eu ver alguma coisa errada eu não vou falar. Então essa é a, esse é o ponto. E aí olha, estou com dúvida técnica, tá?
+
+Toda terçafeira o Rodolfo está aí e todo mundo vai se ajudar também né? Então mandou no grupo ali alguém poder ajudar outro ajude vai ter equipes talvez vai vai ser mais complexo fazer vai ter equipe que vai ter alguém que já fez igualzinho a esse ah já fiz 8 r na minha vida vai ser mais fácil mas é aquilo precisa de todo mundo ali ajudando e a equipe cada faz 1 parte é bom juntar a equipe falar e aí vamos começar por qual vamos começar aqui vamos fazer a visão vamos Ó, vamos começar aqui pelo pelos vendedores, tal. Vamos lá, vamos fazenda. Nossa Tem que fazer disponibilizar quando? Disponibilizar hoje.
+
+Beleza. Pra todo mundo. Primeiro eu vou mandar toda a equipe, tá? 1 1 com o telefone na frente, e depois eu vou mandar. Vou mandar essa aqui também, e vou mandar as 2 as 2 bases aqui pra vocês.
+
+Vou mandar o link, vocês vê se eles têm têm acesso aí. E aí, tá, precisa fazer alguma modificação na base? Vocês podem solicitar e ver se é possível. Então, eu já fiz algumas vezes. Eu olhei e falei, ó, pra ficar bom, era bom se o dado já viesse dessa forma.
+
+Tem essa possibilidade? Vocês podem solicitar, pode solicitar pra mim, ó, seu dado está vindo assim. Tem a possibilidade dele vim, sei lá, junto? Tem a possibilidade da receita que essa data vim separada? 1 coluna de dia, 1 de mês, 1 de ano?
+
+Pode perguntar. Perguntar num, num machuca, aquele já até vem né, separada, por já ter motivo, que alguém já usa isso em outro lugar e já pega separado, talvez pra agrupar ali por mês. Com certeza é por isso. Então pode solicitar, eu já fiz isso algumas vezes, e às vezes dá pra mudar e às vezes não eu não sei nem que que é o dom dessa base não dá vem assim sempre foi assim vai ficar e muitas vezes não dá então dá pra mudar aqui essa base olha dá pra pôr em outro lugar? Olha que interessante está onde?
+
+Está no Google Sheet. E o outro está na Microsoft, pô está no Office 3 meia 5. Já começa aí a bagunça. É. É igual mas mas não é mas já começa aí a, eu vou mandar o link pra todo mundo depois vocês acessam vê se estão com, com acesso aí a todo.
+
+E aí pode usar ah quero testar olha sempre pra rodar meu gráfico aí tem que pôr Excel, pra, pra conectar na na base ali. Pode fazer, tá? E aí tenta trazer o melhor possível que vocês conseguirem. Então até aqui, ó, essa parte é bônus, né? Informações importante que pode fazer sentido pro negócio.
+
+Então vocês podem pensar coisas que já trabalharam, buscar, olha, tenho isso e isso. Que mais eu posso trazer? Talvez até, pedir pro ChatGPT dar 1 ideia diferente pra vocês. Mas é isso vamos lá. Perguntas, a gente já foi respondendo algumas mas alguém, tem mais alguma pergunta?
+
+É as ferramentas que você pode usar no projeto são livres né? São livres. O que quiserem usar. Patrick. Essa essa base ela vai se manter estática ou vai sofrer alteração ao longo do Ela sofreu alteração.
+
+Essa aqui vai se manter vai se manter parado né? Mas olha, se alguém vendeu, os vender a última venda foi de algo 5, se alguém vender vai entrar outro aqui. Tá. Então sua base ela de alguma forma. Ah o último aqui você vê se há 6 vai.
+
+É, ela vai vai vai entrando mais pessoas aqui. De acordo que vai ter no vendas vai vai entrando. Tá. Então a gente tem que manter a fonte onde ela está. Então a gente tem que capturar informação dessa fonte.
+
+A gente não vai poder replicar isso em outro lugar aí e fazer a as transformações, né? Exato como fosse normal, se tiver 1 empresa está vindo dado lá você não consegue mudar então você pode solicitar, talvez você precisa de 1 coluna a mais aqui. Ou precisasse que esse valor viesse eu não consigo multiplicar isso aqui. Queria que já viesse o valor total, pode solicitar é possível É possível segunda com o valor total? É simples eu sei mas é só exemplo.
+
+Então você pode solicitar, pra mim quando tiver numa reunião ali eu coiso e falar olha, eu precisava acabar as viesse dessa forma, é possível? E a gente vai entrar no conselho se é possível ou não. Não só pra saber se vai sofrer alteração ou sofrer alteração porque daí a gente sempre tem que buscar ter o a ingestão vai ter que ser pra partir daí né? Não vai poder pegar essa informação manter outro lugar e fazer as. É, não, é 1 coisa de venda, então vai entrar de venda todos os dias.
+
+O que não vai fazer, não vai criar colunas novas aqui, então não precisa criar da vida aí porque isso não vai acontecer, tá? Vai se manter aqui. Tá bom. Ô, padre, só fazer 1 venda aí também, pode mudar a informação mas também tem que ser informação, aquela pra mudar cabuloso né? Se for algo simples, ah dá pra mudar isso aqui, cara, se der pra fazer que não precisa alterar a base, vida que segue, né?
+
+Exatamente. Então, tem que ter motivo plausível, né? Você quer mudar a entrada por quê? Igual o exemplo que eu dei aqui, né? Ah, eu queria que viesse multiplicado.
+
+Cara, isso aí você faz aí, né? Não vou mudar a base por causa disso. Então, a resposta vai ser não. Você vai falar, se tivesse tal coluna com tal coisa, eu conseguiria fazer 1 entrega do universo aqui, olha, olha que foda. Pô, isso aí pode ser, pode fazer sentido, negócio.
+
+Caramba, espera aí, acho que dá. Deixa eu ver se eu consigo pegar esse dado lá na, quem quem preenche isso aqui, se é manual, está vindo o sistema ou se a gente consegue puxar essa informação pra pra você. Pode ser. Fala aí, Manuel. Opa, deu 1 travada aqui na hora que você estava explicando esses tipos, né?
+
+Tem completa e menor, parece, né? Isso, são 2 tipos de vendas. 1 é 1 é 1 venda completa e a outra é 1 venda num valor reduzido. Então imagina que são, você vai ter de alguma forma, ter diferenciador lá. Então se o cara quiser filtrar por menor, ele quer ver quem vendeu mais menor, quem vendeu mais completa.
+
+Então isso aí vai ter que estar lá também na sua, no seu painel. É são são Tipo, tipo, está vendo? Isso, tipo tipo tipo de produto né? Quando eu faço produto diferente. Tá.
+
+O tipo de produto aqui. Tem esses 2 tipos aqui. Então, tem esses 2 tipos, o a data. O nome é o WhatsApp, não vai usar em nada no painel, eu não consigo ver em lugar nenhum, vai ser 1 contagem da das vezes aqui das vendas. Isso não entra.
+
+E o que é o mais importante aqui é o vendedor aqui o. E talvez usar esses 2. Bem legal. Tá, mas essas 2 colunas não vai usar pra nada. Quem tá com a mão levantada é Sandro.
+
+Vai ser avaliado avaliação tu vai avaliar só a que você tá pedindo aqui no na na internet perguntas aqui o que o que você quer exato primeira coisa ou tu vai pegar a tecnologia que a gente trabalhou como foi feito não vai ser só o resultado final Primeiro, resultado final, tá? Não vou olhar pra trás como bom que se foi feito pra trás está funcionando, funciona? Funciona. Então, tá legal. Vou olhar o resultado, se tá trazendo tudo que tem aqui, e se tem coisas importantes.
+
+Se conseguiu trazer alguma coisa que eu não previ que, pô, isso aqui vai me ajudar de alguma Algum insight, ali. Algum insight legal, alguma coisa assim. Então, o foco vai ser no no final, tá? Como foi desenvolvido, então, depois vou perguntar, né, pra equipe, pô, como que foi, qual que é a ideia? Mas não vai ter peso em apresentação, tá?
+
+Se tiver, vai ser peso minúsculo. Eu vou falar assim, nossa, o Sandro apresentou muito melhor, parabéns. Então, é foco no resultado quem vai ver lá ele vai bater o olho e vai falar poxa está isso aqui eu vou testar, ver se tem algum bug alguma coisa. Então vamos tentar até 1 apresentação antes talvez pra deixar a última semana pra corrigir alguma coisa. Então tentem testar também né pegar a base de dados e validar fazer teste em cima falar será que valor está batendo?
+
+Eu vou fazer isso. Então eu vou somar tudo vou pegar tudo volumetria eu vou bater tudo eu já vou saber quando olhar ali eu já vou filtrar umas coisas e eu já vou saber se aquele valor passou ou não. Não pode ir errado pro, ali pro. Pode fazer a apresentação? Pode fazer apresentação e demonstração.
+
+Pode, pode pode. Legal. Legal ser, se tu é, mas vou olhar bem aqui, bem nessa, nesses pontos tá. Principalmente vai ter valor aqui menor pra olhar dessa parte, mas vamos ver como foi entregue, como foi feito mas tecnologia em si. Não vou, não vou bater muito não.
+
+Mas eu vou sempre comparar com o outro né? Então, cara, os 2 estão iguais aqui, entregaram tudo iguais, vamos ver o que que ele tem. Aqui atrás, vamos ver como criaram. Às vezes alguém criou com. Com 2 clique, e o outro fez mundo, usou 30 tecnologia.
+
+Que que é melhor pra empresa? Os. Que ia ter 30 tecnologia, 30 conta no final do mês, né? É, é 2. É.
+
+É. É, é o dia a dia. É dia a dia. Mas eu vou tentar olhar bem aqui, olha. Então, se mesmo que usou tudo, mas entregou, o outro não entregou e foi mais simples, então ganhou quem entregou tudo.
+
+Perfeito. Olhar, vamos dar, vamos mandar. Então, as próximas reuniões ali, acho que vai ficar mais, quando eu for analisar o primeiro, eu acho que vai ficar mais simples talvez pro time. Ó, isso aqui está legal isso aqui não está. As perguntas vão aparecer quando vocês começarem a criar né.
+
+E sempre assim na hora que você escuta falando você fala nossa é facinho só isso está bom. Aí começar a criar vem as dúvidas. É isso assim. Não a gente, a gente vai tirar. Mas é simples, olha aqui.
+
+É é simples, só que dá trabalhinho legal. E precisa da equipe, né? Eles ali juntarem, conversarem. Álvaro. Opa, estão me ouvindo?
+
+Estamos, para. Tá. Eu acho que 2 coisas, primeiro o Lucas mandou 1 pergunta aqui dentro de mim. Pra atualizar as bases vai ter que entregar alguns ou esse é só o exemplo? Não entendi.
+
+Essa base aqui vai ser atualizada conforme o, essa base aqui vai ser vai ser atualizada conforme for passando os dias. Ela está viva, né? Então, se tiver vendas, ela vai atualizar aqui. Então, vocês podem, ou alguma coisa bater aqui ou, sei lá, Ah sistema toda vez tem que baixar Excel e subir lá. Então vai ter que todo dia que rodar arrumar jeito de baixar esse Excel e subir lá.
+
+Pra essa base aqui está vivo né? Por isso que ela está por isso que ela está online até. Essas bases elas são todas online? É Patrick também. Elas são online.
+
+1 que está aqui no Google Sheet e a outra no no 3 meia 5. No 3 meia 5. Ah beleza. Tá então elas são vivas né então então daqui a 2 semanas já vão ter dados novos aí né? Já vão já vão entrar dados.
+
+Pode pode atualizar. Pode atualizar. Pode atualizar hoje, se alguém tiver alguém trabalhando aí de madrugada. Tá. Não, isso aí.
+
+3 da manhã acho que houve. Não 3 da manhã. Pode pode falar. Eu queria perguntar também sobre o dado de renda eu acho da primeira da primeira tabela da primeira aba ali, da segunda aba no caso. O que é esse dado exatamente ele é igual que tá na outra tabela ele é o valor que entrou daquele cliente o que é esse dado aí esse aqui isso esse valor da venda Você viu que são empresas diferentes né aqui a gente está falando da.
+
+Ah certo, então está separado o telefone dela. Aqui já é aqui já é outra empresa aqui é a. Essa aqui já não tem vendedor você viu? Aqui ninguém liga porque não tem vendedor o cara chega lá na, lá na na empresa o cara entra lá no balcão e fala, que era alugar carro quanto é pra quantos dias tal e aí o cara fica ó 4800 pra sua viagem e o cara paga. Então aqui é é faturamento e tudo mais não tem a ver nessa base aqui não tem a ver a parte do do vendedor.
+
+Tá. Em si. Tem até o o quanto que a pessoa faturou está aqui olha, o quanto que ela, que ela lucrou e tudo mais da. Essa aqui já vem aqui olha da. Ainda consegui Car.
+
+Esse valor aí seria como se fosse a a soma de todos né só que aí não está automático ele botou só o número né? Isso. Por quê? Quando ele pega porque o que que o que que acontece? É com base no faturamento.
+
+Então você viu que foi feito em 18 vezes tal? No mês que vem vai ter 1 parcela desse e 1 desse e desse e mais os novos que entrar. Então a pessoa não consegue. O que que ela olha? Ela vai lá no PagSeguro, que é o banco que usa e ele vê qual que é o valor que tentou no mês olha no mês o PagSeguro entrou 35000 e o cara coloca manualmente aqui olha.
+
+Porque são várias parcelas Olha alguém está vazando aí. Patrich. Por que que é o gasto do concigar? Eu pensei que esse é o valor era o a soma do mês recebido referente ao cartão que, isso aí cara, faturamento, né? Faturamento a beleza não é gasto é faturamento Esse é o valor que ele entra e vamos lá aumente imagina que aqui é conseguir clicar certo?
+
+Ele fez várias vendas aqui ó. Então vamos por mês aqui deu valor tal deu 8000. Só que tem várias parcelas de outras pessoas que estão pagando também. Então, aqui vai ter 8, então, no no fim deu 36000, só disso aqui, só no mês de janeiro. Ele não consegue pegar por aqui pela planilha, porque ele não tem essa entrada.
+
+Ah, o que que ele faz? Ele vai lá no PagSeguro, que é onde cai o valor, todo mês. Aí ele entra lá no banco e olha, no mês de janeiro, caiu 35918 em vendas, e ele coloca manualmente aqui. Então, aqui é o faturamento, foi bem visto, não é o gasto igual eu estava ali, Gerson, boa. Então aqui é o faturamento o cara coloca olha lá na PagSeguro tem 35000.
+
+Aqui na PagSeguro tem 50 e Então quando ele for olhar aqui na, no financeiro, vai estar o valor aqui olha. Dá e o da o da que eu faço olha 36000 é o quê? É essa soma aqui olha. Que é tudo que entrou no balcão. Então está Então está aqui, olha.
+
+O valor. Beleza? E aqui não tem problema que o cara joga manual mesmo. E aqui vocês podem cruzar o quê? Tentar fazer a projeção nos próximos meses, né?
+
+Olha o que vai ser a projeção aí dos próximos meses, e tudo mais. Fechado? Maravilha, obrigado. Nada. Vai ter mais dúvida aí se tiver mais dúvida depois dá pra ir passando no, no grupo.
+
+Mas por enquanto, é isso aqui. Beleza pessoal?
+
+============================================
+
+Agora vou copiar os csv (apenas algumas linhas para você ver o modelo) que foram mostrados na reunião:
+Base 1: Vendas ALUCAR e CONSIGCAR - Arquivo hospedado no Google Sheets
+Aba 1 - Receita (Nesta aba, temos as vendas da empresa Alucar, que é a empresa de Aluguel. Você vai notar que também temos uma coluna à direita que não tem nada a ver com essas vendas, é o faturamento mensal da empresa ConsigCar)
+Nome (Alucar),Data,Mes,Ano,"Valor
+Receita",,"Faturamento
+ConsigCar",Valor
+JANEIRO,,,,,,JANEIRO,
+João Carlos Silva Pereira,2/1/2025,1,2025,"R$ 1.432,00",,Pagseguro,"35.918,27"
+Maria Fernanda Souza Oliveira,3/1/2025,1,2025,"R$ 4.189,00",,,
+Marcos Vinícius Silva Costa,6/1/2025,1,2025,"R$ 118,00",,,
+Ana Beatriz Almeida Lima,7/1/2025,1,2025,"R$ 2.756,00",,,
+Luiz Felipe Rocha Santos,9/1/2025,1,2025,"R$ 4.631,00",,,
+Camila Oliveira Pereira Ramos,10/1/2025,1,2025,"R$ 982,00",,,
+Felipe Augusto da Costa Lima,13/1/2025,1,2025,"R$ 1.911,00",,,
+Renata dos Santos Oliveira Rocha,14/1/2025,1,2025,"R$ 3.678,00",,,
+Rafael Alves de Souza Lima,16/1/2025,1,2025,"R$ 2.198,00",,,
+Laura Beatriz Lima Pereira,20/1/2025,1,2025,"R$ 149,00",,,
+Carlos Eduardo da Silva Souza,21/1/2025,1,2025,"R$ 4.211,00",,,
+Juliana Maria Costa Almeida,25/1/2025,1,2025,"R$ 2.891,00",,,
+José Augusto Ribeiro Lima,27/1/2025,1,2025,"R$ 1.734,00",,,
+Gabriela Alves da Silva Costa,27/1/2025,1,2025,"R$ 3.982,00",,,
+Francisco José Oliveira Costa,27/1/2025,1,2025,"R$ 654,00",,,
+Andreia Costa Rocha Lima,31/1/2025,1,2025,"R$ 2.357,00",,,
+Leonardo Pereira da Silva,31/1/2025,1,2025,"R$ 4.819,00",,,
+Beatriz Almeida Costa Santos,31/1/2025,1,2025,"R$ 1.278,00",,,
+Eduardo Gonçalves Rocha Lima,31/1/2025,1,2025,"R$ 3.491,00",,,
+Vanessa Costa Lima Almeida,31/1/2025,1,2025,"R$ 1.987,00",,,
+Daniel Souza Costa Pereira,31/1/2025,1,2025,"R$ 4.673,00",,,
+,VALOR TOTAL,,,"R$ 54.121,00",,,
+FEVEREIRO,,,,,,FEVEREIRO,
+Cláudia Almeida Pereira Lima,1/2/2025,2,2025,"R$ 823,00",,Pagseguro,"51.472,94"
+Bruno Henrique Oliveira Silva,1/2/2025,2,2025,"R$ 2.919,00",,,
+Thiago Pereira Souza Lima,4/2/2025,2,2025,"R$ 1.421,00",,,
+Carolina Gonçalves Lima Pereira,4/2/2025,2,2025,"R$ 3.856,00",,,
+Arthur Silva Oliveira Costa,4/2/2025,2,2025,"R$ 1.934,00",,,
+Tatiane da Silva Costa Pereira,5/2/2025,2,2025,"R$ 4.598,00",,,
+
+Aba 2 - Despesas (Tabela com despesas de ambas as empresas, porém misturado entre gastos com funcionários e infraestrutura)
+,ALUCAR,,,,,,,,,,,
+DESPESAS,janeiro,fevereiro,março,abril,maio,junho,julho,agosto,setembro,outubro,novembro,dezembro
+Lucas Pereira Costa,"R$ 7.325,00","R$ 5.528,00","R$ 2.358,00","R$ 6.523,35","R$ 6.225,78","R$ 6.552,00","R$ 4.323,00","R$ 4.635,26","R$ 3.368,22","R$ 7.856,25","R$ 7.752,00","R$ 5.823,00"
+Mariana Oliveira Souza,"R$ 1.892,41","R$ 1.892,41","R$ 2.586,00","R$ 2.789,12","R$ 2.789,12","R$ 2.789,12","R$ 2.878,36","R$ 2.789,12","R$ 2.789,12","R$ 1.892,41","R$ 2.789,12","R$ 2.789,12"
+João Henrique Lima,"R$ 2.600,22","R$ 3.700,22","R$ 2.265,36","R$ 2.600,35","R$ 3.369,22","R$ 4.521,00","R$ 6.632,00","R$ 3.587,00","R$ 5.832,33","R$ 3.259,33","R$ 7.823,33","R$ 4.369,22"
+Ana Paula Santos,"R$ 1.756,23","R$ 1.756,23","R$ 1.756,23","R$ 2.456,78","R$ 2.456,78","R$ 2.456,78","R$ 1.756,23","R$ 2.456,78","R$ 2.456,78","R$ 1.756,23","R$ 2.456,78","R$ 2.456,78"
+Aluguel de escritório,"R$ 1.800,00","R$ 1.800,00","R$ 1.800,00","R$ 1.800,00","R$ 1.800,00","R$ 1.800,00","R$ 1.800,00","R$ 1.800,00","R$ 1.800,00","R$ 1.800,00","R$ 1.800,00","R$ 1.800,00"
+Rafael Martins Silva,"R$ 1.421,67","R$ 1.421,67","R$ 1.421,67","R$ 2.987,65","R$ 2.987,65","R$ 2.987,65","R$ 2.992,35","R$ 2.987,65","R$ 2.987,65","R$ 2.997,00","R$ 2.987,65","R$ 2.987,65"
+Contas de energia elétrica,"R$ 2.089,34","R$ 2.089,34","R$ 2.089,34","R$ 1.654,32","R$ 1.654,32","R$ 1.654,32","R$ 2.089,34","R$ 1.654,32","R$ 1.654,32","R$ 2.089,34","R$ 1.654,32","R$ 1.654,32"
+Contas de água e esgoto,"R$ 225,25","R$ 452,00","R$ 318,92","R$ 278,98","R$ 235,00","R$ 275,00","R$ 325,00","R$ 222,00","R$ 412,00","R$ 318,92","R$ 321,96","R$ 278,98"
+Impostos e taxas,"R$ 1.956,11","R$ 1.956,11","R$ 1.956,11","R$ 3.121,45","R$ 3.121,45","R$ 3.121,45","R$ 1.956,11","R$ 3.121,45","R$ 3.121,45","R$ 1.956,11","R$ 3.121,45","R$ 3.121,45"
+Despesas com matéria-prima,"R$ 628,75","R$ 628,75","R$ 628,75","R$ 2.345,67","R$ 2.345,67","R$ 2.345,67","R$ 628,75","R$ 2.345,67","R$ 2.345,67","R$ 628,75","R$ 2.345,67","R$ 2.345,67"
+Despesas de transporte e logística,"R$ 1.843,28","R$ 1.843,28","R$ 1.843,28","R$ 1.890,23","R$ 1.890,23","R$ 1.890,23","R$ 1.843,28","R$ 1.890,23","R$ 1.890,23","R$ 1.843,28","R$ 1.890,23","R$ 1.890,23"
+Manutenção de equipamentos,"R$ 270,98","R$ 270,98","R$ 270,98","R$ 2.678,91","R$ 2.678,91","R$ 2.678,91","R$ 270,98","R$ 2.678,91","R$ 2.678,91","R$ 270,98","R$ 2.678,91","R$ 2.678,91"
+Despesas com marketing e publicidade,"R$ 1.532,56","R$ 1.532,56","R$ 1.532,56","R$ 2.543,12","R$ 2.543,12","R$ 2.543,12","R$ 1.532,56","R$ 2.543,12","R$ 2.543,12","R$ 1.532,56","R$ 2.543,12","R$ 2.543,12"
+Despesas com consultorias e assessorias,"R$ 2.017,89","R$ 2.017,89","R$ 2.017,89","R$ 3.298,76","R$ 3.298,76","R$ 3.298,76","R$ 2.017,89","R$ 3.298,76","R$ 3.298,76","R$ 2.017,89","R$ 3.298,76","R$ 3.298,76"
+"Seguros (patrimonial, de saúde, etc.)","R$ 349,21","R$ 349,21","R$ 349,21","R$ 2.211,89","R$ 2.211,89","R$ 2.211,89","R$ 349,21","R$ 2.211,89","R$ 2.211,89","R$ 349,21","R$ 2.211,89","R$ 2.211,89"
+Inteligência Artificial,"R$ 1.789,43","R$ 1.789,43","R$ 1.789,43","R$ 3.087,54","R$ 3.087,54","R$ 3.087,54","R$ 1.789,43","R$ 3.087,54","R$ 3.087,54","R$ 1.789,43","R$ 3.087,54","R$ 3.087,54"
+CRM,"R$ 623,19","R$ 623,19","R$ 623,19","R$ 623,19","R$ 623,19","R$ 623,19","R$ 623,19","R$ 623,19","R$ 623,19","R$ 623,19","R$ 623,19","R$ 623,19"
+Despesas com softwares e licenças,"R$ 1.921,67","R$ 1.921,67","R$ 1.921,67","R$ 2.456,34","R$ 2.456,34","R$ 2.456,34","R$ 1.921,67","R$ 2.456,34","R$ 2.456,34","R$ 1.921,67","R$ 2.456,34","R$ 2.456,34"
+Mecanicos,"R$ 417,82","R$ 417,82","R$ 417,82","R$ 2.789,01","R$ 2.789,01","R$ 2.789,01","R$ 417,82","R$ 2.789,01","R$ 2.789,01","R$ 417,82","R$ 2.789,01","R$ 2.789,01"
+Treinamento,"R$ 2.056,34","R$ 2.056,34","R$ 2.056,34","R$ 3.165,78","R$ 3.165,78","R$ 3.165,78","R$ 2.056,34","R$ 3.165,78","R$ 3.165,78","R$ 2.056,34","R$ 3.165,78","R$ 3.165,78"
+Despesas com viagens e deslocamentos,"R$ 1.359,28","R$ 1.359,28","R$ 1.359,28","R$ 2.287,43","R$ 2.287,43","R$ 2.287,43","R$ 1.359,28","R$ 2.287,43","R$ 2.287,43","R$ 1.359,28","R$ 2.287,43","R$ 2.287,43"
+Despesas com telefonia móvel e fixa,"R$ 189,92","R$ 189,92","R$ 189,92","R$ 189,92","R$ 199,35","R$ 199,35","R$ 199,35","R$ 199,35","R$ 199,35","R$ 199,35","R$ 199,35","R$ 199,35"
+TOTAL,"R$ 36.066,55","R$ 35.596,30","R$ 31.551,95","R$ 53.779,79","R$ 54.216,54","R$ 55.734,54","R$ 39.762,14","R$ 52.830,80","R$ 53.999,09","R$ 38.935,34","R$ 60.283,83","R$ 54.857,74"
+,,,,,,,,,,,,
+,CONSIGCAR,,,,,,,,,,,
+DESPESAS,janeiro,fevereiro,março,abril,maio,junho,julho,agosto,setembro,outubro,novembro,dezembro
+Ricardo Augusto da Silva Pereira,"R$ 3.482,76","R$ 3.482,76","R$ 3.482,76","R$ 3.482,76","R$ 3.482,76","R$ 7.225,00","R$ 8.362,00","R$ 1.100,22","R$ 3.482,76","R$ 2.752,00","R$ 3.482,76","R$ 7.528,25"
+Juliana Costa Almeida Lima,"R$ 6.215,43","R$ 7.523,66","R$ 6.215,43","R$ 6.215,43","R$ 6.000,00","R$ 6.215,43","R$ 6.215,43","R$ 6.215,43","R$ 6.215,43","R$ 6.215,43","R$ 6.215,43","R$ 6.215,43"
+Gabriel Henrique Oliveira Souza,"R$ 4.823,36","R$ 1.973,50","R$ 6.324,25","R$ 2.552,35","R$ 4.552,23","R$ 1.973,50","R$ 7.526,00","R$ 5.600,23","R$ 1.232,55","R$ 1.973,50","R$ 1.973,50","R$ 3.950,00"
+Larissa Beatriz Santos Ribeiro,"R$ 4.890,22","R$ 4.890,22","R$ 4.890,22","R$ 4.890,22","R$ 4.890,22","R$ 4.890,22","R$ 4.890,22","R$ 4.890,22","R$ 2.784,98","R$ 4.890,22","R$ 4.890,22","R$ 6.325,36"
+Felipe Augusto Souza Lima,"R$ 2.658,90","R$ 2.658,90","R$ 2.658,90","R$ 2.658,90","R$ 2.658,90","R$ 2.658,90","R$ 2.658,90","R$ 2.658,90","R$ 2.658,90","R$ 2.658,90","R$ 2.658,90","R$ 2.658,90"
+Mariana Oliveira Costa Silva,"R$ 9.732,25","R$ 5.340,10","R$ 5.340,10","R$ 5.340,10","R$ 5.340,10","R$ 5.340,10","R$ 5.340,10","R$ 5.340,10","R$ 5.340,10","R$ 5.340,10","R$ 5.340,10","R$ 5.340,10"
+Carlos Eduardo Pereira Lima,"R$ 1.847,35","R$ 1.847,35","R$ 1.847,35","R$ 1.847,35","R$ 1.847,35","R$ 1.847,35","R$ 1.847,35","R$ 1.847,35","R$ 1.847,35","R$ 3.482,76","R$ 3.482,76","R$ 1.847,35"
+Trafego,"R$ 3.482,76","R$ 3.482,76","R$ 3.482,76","R$ 3.482,76","R$ 3.482,76","R$ 3.482,76","R$ 3.482,76","R$ 3.223,87","R$ 3.482,76","R$ 6.215,43","R$ 6.215,43","R$ 3.482,76"
+Google Ads,"R$ 6.215,43","R$ 6.215,43","R$ 6.215,43","R$ 6.215,43","R$ 6.215,43","R$ 6.215,43","R$ 6.215,43","R$ 6.215,43","R$ 6.215,43","R$ 1.973,50","R$ 1.973,50","R$ 6.215,43"
+Meta Ads,"R$ 1.973,50","R$ 1.973,50","R$ 1.973,50","R$ 1.973,50","R$ 1.973,50","R$ 1.973,50","R$ 1.973,50","R$ 1.973,50","R$ 1.973,50","R$ 4.890,22","R$ 4.890,22","R$ 1.973,50"
+LinkedIn Ads,"R$ 4.890,22","R$ 4.890,22","R$ 4.890,22","R$ 4.890,22","R$ 4.890,22","R$ 4.890,22","R$ 4.890,22","R$ 4.890,22","R$ 4.890,22","R$ 2.658,90","R$ 2.658,90","R$ 4.890,22"
+CRM,"R$ 2.658,90","R$ 2.658,90","R$ 2.658,90","R$ 2.658,90","R$ 2.658,90","R$ 2.658,90","R$ 2.658,90","R$ 2.658,90","R$ 2.658,90","R$ 5.340,10","R$ 5.340,10","R$ 2.658,90"
+Landin page,"R$ 5.340,10","R$ 5.340,10","R$ 5.340,10","R$ 5.340,10","R$ 5.340,10","R$ 5.340,10","R$ 5.340,10","R$ 5.340,10","R$ 5.340,10","R$ 5.340,10","R$ 5.340,10","R$ 5.340,10"
+TOTAL,"R$ 58.211,18","R$ 52.277,40","R$ 55.319,92","R$ 51.548,02","R$ 53.332,47","R$ 54.711,41","R$ 61.400,91","R$ 51.954,47","R$ 48.122,98","R$ 53.731,16","R$ 54.461,92","R$ 58.426,30"
+
+Aba 3: Financeiro Mensal (Aba com cálculos de receita bruta, despesas e receita liquida separadas de forma mensal, com dados puxados das outras abas. Ambas as empresas.)
+#REF!,,,CONSIGCAR,,Ano,Mês,ALUCAR,CONSIGCAR,,Ano,Mês,ALUCAR,CONSIGCAR,TOTAL
+,,,-,,-,-,-,,,,,#REF!,#REF!,
+,,,-,,2023,8,#REF!,-,,2023,8,#REF!,-,#REF!
+,,,-,,,9,#REF!,-,,,9,#REF!,-,#REF!
+,,,-,,,10,#REF!,-,,,10,#REF!,-,#REF!
+,,,-,,,11,#REF!,-,,,11,#REF!,-,#REF!
+,,,-,,,12,#REF!,-,,,12,#REF!,-,#REF!
+,,,-,,2024,1,#REF!,-,,2024,1,#REF!,-,#REF!
+,,,-,,,2,#REF!,-,,,2,#REF!,-,#REF!
+,,,-,,,3,#REF!,-,,,3,#REF!,-,#REF!
+,,,-,,,4,#REF!,-,,,4,#REF!,-,#REF!
+,,,-,,,5,#REF!,-,,,5,#REF!,-,#REF!
+,,,-,,,6,#REF!,-,,,6,#REF!,-,#REF!
+,,,-,,,7,#REF!,-,,,7,#REF!,-,#REF!
+,,,-,,,8,#REF!,-,,,8,#REF!,-,#REF!
+,,,#REF!,,,9,#REF!,#REF!,,,9,#REF!,#REF!,#REF!
+,,,#REF!,,,10,#REF!,#REF!,,,10,#REF!,#REF!,#REF!
+,,,#REF!,,,11,#REF!,#REF!,,,11,#REF!,#REF!,#REF!
+,,,#REF!,,,12,#REF!,#REF!,,,12,#REF!,#REF!,#REF!
+Ano,Mes,ALUCAR,CONSIGCAR,,Ano,Mês,ALUCAR,CONSIGCAR,,Ano,Mês,ALUCAR,CONSIGCAR,TOTAL
+,,458145,-,,,2,#REF!,#REF!,,,2,#REF!,#REF!,
+2025,1,"R$ 54.121,00","35.918,27",,2025,1,"R$ 36.066,55","R$ 58.211,18",,2025,1,"R$ 18.054,45","-22.292,91","-R$ 4.238,46"
+,2,"R$ 65.686,00","51.472,94",,,2,"R$ 35.596,30","R$ 52.277,40",,,2,"R$ 30.089,70","-804,46","R$ 29.285,24"
+,3,"R$ 39.107,00","34.994,22",,,3,"R$ 31.551,95","R$ 55.319,92",,,3,"R$ 7.555,05","-20.325,70","-R$ 12.770,65"
+,4,"R$ 44.577,00","48.182,77",,,4,"R$ 53.779,79","R$ 51.548,02",,,4,"-R$ 9.202,79","-3.365,25","-R$ 12.568,04"
+,5,"R$ 2.654,00",,,,5,"R$ 54.216,54","R$ 53.332,47",,,5,"-R$ 51.562,54","-53.332,47","-R$ 104.895,01"
+,6,"R$ 36.000,00","50.000,00",,,6,"R$ 55.734,54","R$ 54.711,41",,,6,"-R$ 19.734,54","-4.711,41","-R$ 24.445,95"
+,7,"R$ 36.000,00","59.000,00",,,7,"R$ 39.762,14","R$ 61.400,91",,,7,"-R$ 3.762,14","-2.400,91","-R$ 6.163,05"
+,8,"R$ 36.000,00","68.000,00",,,8,"R$ 52.830,80","R$ 51.954,47",,,8,"-R$ 16.830,80","16.045,53","-R$ 785,27"
+,9,"R$ 36.000,00","77.000,00",,,9,"R$ 53.999,09","R$ 48.122,98",,,9,"-R$ 17.999,09","28.877,02","R$ 10.877,93"
+,10,"R$ 36.000,00","86.000,00",,,10,"R$ 38.935,34","R$ 53.731,16",,,10,"-R$ 2.935,34","32.268,84","R$ 29.333,50"
+,11,"R$ 36.000,00","95.000,00",,,11,"R$ 60.283,83","R$ 54.461,92",,,11,"-R$ 24.283,83","40.538,08","R$ 16.254,25"
+,12,"R$ 36.000,00","104.000,00",,,12,"R$ 54.857,74","R$ 58.426,30",,,12,"-R$ 18.857,74","45.573,70","R$ 26.715,96"
+Total Geral,,"R$ 458.145,00","R$ 709.568,20",,Total Geral,,"R$ 567.614,61","R$ 653.498,14",,Total Geral,,"-R$ 109.469,61","R$ 56.070,06","-R$ 53.399,55"
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+Receita Bruta,,,,,Despesas,,,,,Receita Liquida,,,,
+
+Aba 4: Financeiro anual (Aba contendo cálculos anuais, está mais para um "dashboard" contendo valores financeiros anuais.)
+
+,,ATUAL 2025 (abril),,,,,PREVISÃO 2025,,,,,,,,
+,,FATURAMENTO,DESPESAS,RECEITA LIQUÍDA,,,FATURAMENTO,DESPESAS,RECEITA LIQUÍDA,,,,,,
+,,"R$ 374.059,20","R$ 374.351,11","-R$ 291,91",,,"R$ 1.167.713,20","R$ 1.221.112,75","-R$ 53.399,55",,,,,,
+,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,
+,ALUCAR,,,,,CONSIGCAR,,,,,,TOTAL,,,
+,ANO,Receita Bruta,Despesas Gerais,Receita Liquida,,ANO,Receita Bruta,Despesas Gerais,Receita Liquida,,,ANO,Receita Bruta,Despesas Gerais,Receita Liquida
+,2025,"R$ 458.145,00","R$ 567.614,61","-R$ 109.469,61",,2025,"R$ 709.568,20","R$ 653.498,14","R$ 56.070,06",,,2025,"R$ 1.167.713,20","R$ 1.221.112,75","-R$ 53.399,55"
+,TOTAL,"R$ 458.145,00","R$ 567.614,61","-R$ 109.469,61",,TOTAL,"R$ 709.568,20","R$ 653.498,14","R$ 56.070,06",,,TOTAL,"R$ 1.167.713,20","R$ 1.221.112,75","-R$ 53.399,55"
+
+Aba 5: PLR (Aba contendo informações sobre PLR para questões de vendas e metas)
+
+,ALUCAR,,,,,,CONSIGCAR,,,,,,PLR PARCIAL ABRIL,,,,,,Meta Anual,Salário Extra
+,Ano,Mês,"Meta
+1","Meta
+2",Realizado,,Ano,Mês,"Meta
+1","Meta
+2",Realizado,,ALUCAR,,,CONSIGCAR,,,Uma Meta,"0,5"
+,2025,1,22,30,20,,2025,1,32,42,32,,58,,,86,,,Duas Metas,1
+,,2,44,60,43,,,2,57,67,57,,"Meta
+1","Meta
+2",,"Meta
+1","Meta
+2",,Três Metas,"1,5"
+,,3,66,90,58,,,3,86,96,86,,66,90,,86,96,,Quatro Metas,2
+,,4,88,120,73,,,4,122,129,127,,,,,,,,,
+,,5,110,150,,,,5,172,199,0,,,,,,,,,
+,,6,132,180,,,,6,222,269,0,,,,,,,,,
+,,7,154,210,,,,7,272,339,0,,,,,,,,,
+,,8,176,240,,,,8,322,409,0,,,,,,,,,
+,,9,198,270,,,,9,372,479,0,,,,,,,,,
+,,10,220,300,,,,10,422,549,0,,,,,,,,,
+,,11,242,330,,,,11,472,619,0,,,,,,,,,
+,,12,264,360,,,,12,522,689,0,,,,,,,,,
+,Total Geral,,264,360,58,,Total Geral,,522,689,127,,,,,,,,,
+
+Agora, o segundo arquivo
+Base 2: Vendas ConsigCar (Hospedado em Sharepoint)
+Data do Pagamento,Tipo Produto,Nome,WhatsApp,Quantidade de vezes,Valor parcela,Vendedor,Comentarios
+11/11/24,Completa,Fernanda Gomes Ibrahim Campos,(11) 99123-4567,18," R$   1.834,66",Thiago,
+22/11/24,Completa,Patrícia Zanetti Jardim Campos Souza,(21) 99234-5678,6," R$        641,33",Thiago,
+18/11/24,Completa,Eduardo Yamada Dias Vieira Nogueira,(43) 99345-6789,18," R$   1.879,30",Thiago,
+22/10/24,Completa,Thiago Lopes Xavier Queiroz,(51) 99456-7890,18," R$   1.831,83",Thiago,
+20/10/24,Completa,Vanessa Yamada Farias Krause Teixeira,(61) 99567-8901,6," R$        645,73",Thiago,
+1/11/24,Completa,Natália Oliveira Vieira Lopes Nogueira Costa,(71) 99678-9012,6," R$        638,48",Thiago,
+1/10/24,Completa,Patrícia Machado Teixeira Zanetti Ibrahim Queiroz,(81) 99789-0123,12," R$   1.239,66",Fernanda,
+7/10/24,Completa,Kleber Nogueira Costa Teixeira Silva Esteves,(91) 99890-1234,18," R$   1.834,00",Thiago,
+6/11/24,Completa,Helena Oliveira Nogueira Esteves Zanetti,(11) 99111-2222,6," R$        648,10",Fernanda,
+9/11/24,Completa,Fernanda Rodrigues Costa Uchoa Almeida,(21) 99222-3333,6," R$        625,15",Fernanda,
+7/11/24,Completa,Helena Pereira Zanetti Souza Esteves Wanderley,(43) 99333-4444,12," R$   1.259,10",Fernanda,
+11/11/24,Completa,Rafael Campos Nogueira Queiroz,(51) 99444-5555,12," R$   1.220,16",Fernanda,
+11/11/24,Completa,Natália Xavier Ferreira Nogueira Queiroz Uchoa,(61) 99555-6666,6," R$        634,78",Fernanda,
+14/11/24,Completa,Vanessa Queiroz Teixeira Almeida Xavier Esteves,(71) 99666-7777,6," R$        632,19",Fernanda,
+14/11/24,Completa,Kleber Barros Campos Almeida Nogueira,(81) 99777-8888,18," R$   1.815,02",Fernanda,
+14/11/24,Completa,Natália Gomes Zanetti Silva,(91) 99888-9999,12," R$   1.217,55",Fernanda,
+18/11/24,Completa,Larissa Xavier Nogueira Oliveira Esteves Barros,(11) 99123-4567,6," R$        693,90",Fernanda,
+18/11/24,Completa,Gabriel Cardoso Rodrigues Pereira Krause Ibrahim,(21) 99234-5678,12," R$   1.286,70",Fernanda,
+21/11/24,Completa,Vanessa Esteves Barros Nogueira Jardim Henrique,(43) 99345-6789,12," R$   1.218,84",Fernanda,
+22/11/24,Completa,Helena Krause Barros Lopes,(51) 99456-7890,12," R$   1.235,30",Thiago,
+18/11/24,Completa,Marcos Cardoso Esteves Pereira Jardim Ibrahim,(61) 99567-8901,6," R$        619,28",Fernanda,
+22/11/24,Completa,Vanessa Costa Ibrahim Dias,(71) 99678-9012,6," R$        633,27",Fernanda,
+24/11/24,Completa,Patrícia Barros Teixeira Machado,(81) 99789-0123,18," R$   1.839,39",Fernanda,
+24/11/24,Completa,Carlos Campos Xavier Machado Queiroz,(91) 99890-1234,6," R$        631,54",Fernanda,
+25/11/24,Completa,Gabriel Ferreira Campos Wanderley,(11) 99111-2222,6," R$        621,88",Fernanda,
+26/11/24,Completa,Igor Almeida Farias Xavier Queiroz,(21) 99222-3333,12," R$   1.214,57",Gustavo,
+26/11/24,Completa,Carlos Vieira Teixeira Machado Gomes Souza,(43) 99333-4444,6," R$        649,88",Gustavo,
+27/11/24,Completa,Natália Xavier Yamada Dias Esteves Teixeira,(51) 99444-5555,12," R$   1.225,65",Gustavo,
+27/11/24,Completa,Gabriel Dias Cardoso Teixeira Almeida Henrique,(61) 99555-6666,18," R$   1.842,30",Gustavo,
+27/11/24,Completa,Helena Oliveira Ferreira Cardoso Henrique,(71) 99666-7777,18," R$   1.822,15",Fernanda,
+27/11/24,Completa,Otávio Oliveira Lopes Xavier Rodrigues Barros,(81) 99777-8888,12," R$   1.235,19",Fernanda,
+28/11/24,Completa,Igor Silva Yamada Oliveira Nogueira,(91) 99888-9999,6," R$        648,45",Gustavo,
+28/11/24,Completa,Helena Rodrigues Lopes Vieira Yamada Farias,(11) 99123-9876,12," R$   1.247,80",Fernanda,
+29/11/24,Completa,Kleber Campos Zanetti Oliveira,(21) 99234-8765,6," R$        622,10",Fernanda,
+29/11/24,Completa,Natália Esteves Gomes Henrique Cardoso,(43) 99345-7654,18," R$   1.833,88",Fernanda,
+30/11/24,Completa,Carlos Almeida Pereira Vieira Zanetti Yamada,(51) 99456-6543,12," R$   1.236,66",Gustavo,
+2/12/24,Completa,Rafael Vieira Campos Uchoa Queiroz Cardoso,(61) 99567-5432,12," R$   1.249,40",Fernanda,
+2/12/24,Completa,Vanessa Gomes Jardim Uchoa Oliveira Krause,(71) 99678-4321,18," R$   1.842,61",Gustavo,
+2/12/24,Completa,Bruno Machado Yamada Esteves Barros,(81) 99789-3210,6," R$        633,41",Gustavo,
+3/12/24,Completa,Fernanda Teixeira Yamada Cardoso Souza Esteves,(91) 99890-2109,18," R$   1.896,80",Gustavo,
+4/12/24,Completa,Daniela Jardim Ibrahim Costa Souza,(11) 99111-1111,12," R$   1.238,90",Gustavo,
+5/12/24,Completa,Thiago Wanderley Jardim Pereira Souza,(21) 99222-2222,18," R$   1.838,02",Gustavo,
+5/12/24,Completa,Vanessa Gomes Cardoso Costa Krause Yamada,(43) 99333-3333,12," R$   1.215,18",Gustavo,
+5/12/24,Completa,Fernanda Gomes Ferreira Dias Lopes Ibrahim,(51) 99444-4444,18," R$   1.867,80",Gustavo,
+6/12/24,Completa,Larissa Esteves Teixeira Lopes Ferreira,(61) 99555-5555,12," R$   1.241,20",Thiago,
+6/12/24,Completa,Ana Jardim Barros Souza,(71) 99666-6666,12," R$   1.215,52",Gustavo,
+8/12/24,Completa,Vanessa Gomes Costa Queiroz,(81) 99777-7777,12," R$   1.230,86",Fernanda,
+9/12/24,Completa,Carlos Dias Teixeira Yamada Oliveira,(91) 99888-8888,12," R$   1.210,79",Fernanda,
+10/12/24,Completa,Bruno Barros Nogueira Queiroz,(11) 99123-4567,18," R$   1.891,30",Gustavo,
+11/12/24,Completa,Vanessa Rodrigues Barros Campos Oliveira,(12) 99234-5678,12," R$   1.244,15",Gustavo,
+11/12/24,Completa,Larissa Ibrahim Costa Krause,(13) 99345-6789,6," R$        625,50",Gustavo,
+11/12/24,Completa,Carlos Teixeira Barros Machado Nogueira Rodrigues,(14) 99456-7890,12," R$   1.240,43",Gustavo,
+12/12/24,Completa,Simone Esteves Ibrahim Rodrigues,(15) 99567-8901,12," R$   1.214,58",Gustavo,
+12/12/24,Completa,Gabriel Zanetti Queiroz Yamada,(16) 99678-9012,18," R$   1.848,40",Gustavo,
+12/12/24,Completa,Bruno Machado Oliveira Henrique,(17) 99789-0123,12," R$   1.219,75",Gustavo,
+16/12/24,Completa,Gabriel Lopes Barros Silva Xavier,(18) 99890-1234,12," R$   1.227,71",Gustavo,
+16/12/24,Completa,Patrícia Henrique Esteves Yamada Wanderley,(19) 99111-2222,18," R$   1.833,30",Gustavo,
+17/12/24,Completa,Igor Esteves Jardim Uchoa,(21) 99222-3333,18," R$   1.849,63",Gustavo,
+17/12/24,Completa,Kleber Teixeira Jardim Pereira,(22) 99333-4444,18," R$   1.834,62",Gustavo,
+18/12/24,Completa,Patrícia Esteves Machado Jardim,(24) 99444-5555,12," R$   1.244,79",Gustavo,
+18/12/24,Completa,Helena Xavier Machado Nogueira Wanderley,(27) 99555-6666,6," R$        644,22",Gustavo,
+19/12/24,Completa,Natália Henrique Xavier Nogueira Esteves Cardoso,(28) 99666-7777,18," R$   1.834,28",Gustavo,
+20/12/24,Completa,Natália Xavier Campos Gomes,(31) 99777-8888,18," R$   1.827,00",Gustavo,
+22/12/24,Completa,Otávio Ferreira Nogueira Yamada Esteves,(32) 99888-9999,6," R$        614,76",Gustavo,
+23/12/24,Completa,Patrícia Dias Rodrigues Krause,(33) 99123-9876,6," R$        650,50",Gustavo,
+23/12/24,Completa,Igor Henrique Costa Nogueira Souza,(34) 99234-8765,12," R$   1.210,60",Gustavo,
+24/12/24,Completa,Thiago Henrique Cardoso Krause,(35) 99345-7654,6," R$        638,67",Gustavo,
+24/12/24,Completa,Eduardo Pereira Souza Barros Costa,(37) 99456-6543,12," R$   1.212,72",Gustavo,
+25/12/24,Completa,Kleber Silva Wanderley Costa Krause,(38) 99567-5432,18," R$   1.834,70",Gustavo,
+26/12/24,Completa,Rafael Rodrigues Almeida Wanderley Silva,(41) 99678-4321,18," R$   1.822,98",Gustavo,
+26/12/24,Completa,Bruno Pereira Vieira Wanderley Costa,(42) 99789-3210,12," R$   1.241,81",Gustavo,
+29/12/24,Completa,Marcos Queiroz Ferreira Ibrahim Xavier Cardoso,(43) 99890-2109,12," R$   1.247,30",Gustavo,
+29/12/24,Completa,Natália Zanetti Silva Ferreira Costa,(44) 99111-1111,18," R$   1.843,54",Gustavo,
+03/01/25,Completa,Fernanda Almeida Jardim Gomes,(45) 99222-2222,12," R$   1.211,78",Gustavo,
+09/01/25,Completa,Daniela Zanetti Oliveira Silva Teixeira,(46) 99333-3333,6," R$        614,21",Fernanda,
+10/01/25,Completa,Vanessa Cardoso Campos Souza Almeida Costa,(47) 99444-4444,6," R$        642,66",Gustavo,
+14/01/25,Completa,Fernanda Barros Machado Xavier Gomes,(48) 99555-5555,12," R$   1.238,09",Thiago,
+15/01/25,Completa,Eduardo Ferreira Souza Yamada,(49) 99666-6666,12," R$   1.278,50",Thiago,
+16/01/25,Completa,Vanessa Cardoso Yamada Wanderley Costa,(51) 99777-7777,6," R$        643,80",Gustavo,
+16/01/25,Completa,Rafael Nogueira Costa Almeida,(53) 99888-8888,6," R$        636,09",Gustavo,
+18/01/25,Completa,Vanessa Gomes Dias Esteves,(54) 99123-4567,6," R$        632,36",Gustavo,
+20/01/25,Completa,Daniela Campos Pereira Xavier Krause Lopes,(55) 99234-5678,6," R$        611,01",Gustavo,
+22/01/25,Completa,Gabriel Yamada Pereira Vieira,(61) 99345-6789,12," R$   1.210,11",Gustavo,
+22/01/25,Completa,Marcos Xavier Zanetti Ibrahim,(62) 99456-7890,12," R$   1.243,70",Gustavo,
+23/01/25,Completa,Patrícia Nogueira Ferreira Wanderley Zanetti Ibrahim,(63) 99567-8901,18," R$   1.823,48",Gustavo,
+23/01/25,Completa,Fernanda Xavier Gomes Teixeira Pereira,(64) 99678-9012,6," R$        613,27",Gustavo,
+24/01/25,Completa,Helena Yamada Krause Ferreira,(65) 99789-0123,12," R$   1.242,25",Fernanda,
+24/01/25,Completa,Patrícia Silva Souza Jardim,(66) 99890-1234,18," R$   1.844,80",Gustavo,
+24/01/25,Completa,Helena Pereira Vieira Silva Uchoa Krause,(67) 99111-2222,18," R$   1.829,48",Gustavo,
+24/01/25,Completa,Fernanda Almeida Pereira Vieira,(68) 99222-3333,12," R$   1.240,22",Gustavo,
+24/01/25,Completa,Ana Ferreira Gomes Machado Vieira Zanetti,(47) 99444-4444,18," R$   1.820,87",Fernanda,
+24/01/25,Completa,Carlos Jardim Rodrigues Lopes Pereira,(48) 99555-5555,6," R$        640,12",Gustavo,
+24/01/25,Completa,Vanessa Cardoso Souza Barros Costa Dias,(49) 99666-6666,6," R$        645,59",Gustavo,
+25/01/25,Completa,Bruno Ferreira Yamada Oliveira Gomes Wanderley,(51) 99777-7777,6," R$        616,58",Gustavo,
+27/01/25,Completa,Ana Pereira Zanetti Rodrigues Lopes,(53) 99888-8888,12," R$   1.225,06",Fernanda,
+27/01/25,Completa,Natália Yamada Ibrahim Vieira Gomes,(54) 99123-4567,12," R$   1.264,70",Gustavo,
+27/01/25,Completa,Juliana Ferreira Nogueira Silva Rodrigues,(55) 99234-5678,6," R$        644,38",Gustavo,
+28/01/25,Completa,Kleber Queiroz Yamada Oliveira,(61) 99345-6789,18," R$   1.813,01",Gustavo,
+28/01/25,Completa,Larissa Pereira Dias Lopes,(62) 99456-7890,12," R$   1.242,47",Gustavo,
+28/01/25,Completa,Thiago Farias Teixeira Gomes Silva,(63) 99567-8901,6," R$        617,00",Gustavo,
+28/01/25,Completa,Rafael Costa Yamada Dias,(64) 99678-9012,6," R$        638,92",Gustavo,
+29/01/25,Completa,Otávio Costa Queiroz Ferreira Nogueira Farias,(65) 99789-0123,12," R$   1.217,38",Gustavo,
+30/01/25,Completa,Helena Teixeira Krause Costa Barros,(66) 99890-1234,6," R$        645,85",Gustavo,
+30/01/25,Completa,Eduardo Almeida Souza Jardim Xavier Silva,(67) 99111-2222,6," R$        647,00",Fernanda,
+31/01/25,Completa,Carlos Machado Dias Silva Farias,(68) 99222-3333,6," R$        611,45",Gustavo,
+03/02/25,Completa,Ana Machado Nogueira Farias Dias,(11) 99123-0987,18," R$   1.810,91",Gustavo,
+03/02/25,Completa,Patrícia Yamada Uchoa Queiroz Costa Zanetti,(21) 99234-7654,12," R$   1.210,53",Gustavo,
+03/02/25,Completa,Thiago Lopes Yamada Oliveira Campos,(43) 99345-4321,6," R$        626,30",Gustavo,
+04/02/25,Completa,Daniela Krause Farias Rodrigues,(51) 99456-1098,6," R$        635,32",Fernanda,
+04/02/25,Completa,Juliana Farias Silva Xavier,(61) 99567-8765,18," R$   1.815,23",Gustavo,
+04/02/25,Completa,Eduardo Ferreira Farias Almeida Silva,(71) 99678-5432,6," R$        613,05",Gustavo,
+06/02/25,Completa,Daniela Jardim Farias Krause,(81) 99789-2109,12," R$   1.259,60",Fernanda,
+07/02/25,Completa,Eduardo Queiroz Costa Nogueira Rodrigues Teixeira,(91) 99890-9876,12," R$   1.235,27",Gustavo,
+10/02/25,Completa,Bruno Pereira Cardoso Queiroz Vieira Lopes,(11) 99111-4567,18," R$   1.816,54",Gustavo,
+11/02/25,Completa,Marcos Esteves Gomes Yamada,(21) 99222-6789,18," R$   1.859,80",Gustavo,
+11/02/25,Completa,Daniela Costa Wanderley Queiroz,(43) 99333-8901,18," R$   1.821,11",Gustavo,
+13/02/25,Completa,Juliana Uchoa Souza Vieira Dias Teixeira,(51) 99444-1234,6," R$        621,95",Gustavo,
+15/02/25,Completa,Fernanda Cardoso Jardim Barros,(61) 99555-2345,12," R$   1.231,59",Fernanda,
+18/02/25,Completa,Igor Campos Pereira Oliveira Uchoa,(71) 99666-3456,12," R$   1.246,85",Gustavo,
+18/02/25,Completa,Vanessa Henrique Yamada Campos Uchoa Vieira,(81) 99777-4567,6," R$        645,69",Gustavo,
+18/02/25,Completa,Natália Henrique Xavier Ibrahim Farias,(91) 99888-5678,18," R$   1.844,40",Gustavo,
+18/02/25,Completa,Otávio Rodrigues Cardoso Ibrahim,(12) 99123-9012,18," R$   1.829,80",Thiago,
+19/02/25,Completa,Rafael Yamada Gomes Rodrigues Ferreira,(22) 99234-0123,18," R$   1.843,25",Gustavo,
+19/02/25,Completa,Rafael Teixeira Pereira Rodrigues,(32) 99345-1234,6," R$        635,09",Gustavo,
+19/02/25,Completa,Simone Souza Campos Almeida,(42) 99456-2345,6," R$        637,50",Fernanda,
+21/02/25,Completa,Bruno Souza Pereira Lopes Dias Campos,(52) 99567-3456,6," R$        636,20",Gustavo,
+21/02/25,Completa,Larissa Rodrigues Ibrahim Pereira Esteves Gomes,(62) 99678-4567,6," R$        630,74",Gustavo,
+24/02/25,Completa,Eduardo Almeida Esteves Uchoa Oliveira Lopes,(72) 99789-5678,12," R$   1.228,60",Gustavo,
+26/02/25,Completa,Ana Campos Queiroz Lopes,(82) 99890-6789,12," R$   1.222,83",Gustavo,
+28/02/25,Completa,Kleber Lopes Ibrahim Henrique Esteves,(92) 99111-7890,12," R$   1.241,13",Gustavo,
+06/03/25,Completa,Patrícia Jardim Campos Gomes Zanetti Machado,(13) 99222-8901,6," R$        642,00",Thiago,
+07/03/25,Completa,Igor Lopes Barros Farias Wanderley Campos,(23) 99333-9012,6," R$        641,00",Fernanda,
+07/03/25,Completa,Helena Yamada Almeida Ferreira Cardoso Lopes,(33) 99444-0123,12," R$   1.248,63",Fernanda,
+08/03/25,Completa,Marcos Queiroz Campos Souza Oliveira Yamada,(43) 99555-1234,18," R$   1.844,21",Fernanda,
+08/03/25,Completa,Daniela Ferreira Xavier Zanetti Farias,(53) 99666-2345,6," R$        638,40",Fernanda,
+10/03/25,Completa,Igor Almeida Xavier Wanderley Gomes,(63) 99777-3456,18," R$   1.831,70",Gustavo,
+10/03/25,Completa,Thiago Wanderley Souza Ibrahim Pereira,(73) 99888-4567,18," R$   1.815,78",Fernanda,
+11/03/25,Completa,Ana Cardoso Wanderley Souza Xavier,(83) 99123-5678,18," R$   1.830,20",Thiago,
+11/03/25,Completa,Helena Cardoso Queiroz Souza,(93) 99234-6789,6," R$        617,12",Thiago,
+14/03/25,Completa,Vanessa Esteves Cardoso Jardim,(14) 99345-7890,6," R$        635,47",Rafael,
+14/03/25,Completa,Kleber Farias Ibrahim Xavier,(24) 99456-8901,12," R$   1.241,22",Gustavo,
+14/03/25,Completa,Helena Cardoso Ferreira Almeida Zanetti,(34) 99567-9012,12," R$   1.225,20",Thiago,
+14/03/25,Completa,Thiago Souza Pereira Esteves,(44) 99678-0123,6," R$        644,38",Thiago,
+14/03/25,Completa,Otávio Cardoso Rodrigues Esteves Lopes Krause,(54) 99789-1234,6," R$        611,88",Thiago,
+14/03/25,Completa,Gabriel Oliveira Almeida Gomes,(64) 99890-2345,12," R$   1.231,30",Rafael,
+14/03/25,Menor,Gabriel Uchoa Costa Almeida,(74) 99111-3456,6," R$        610,24",Rafael,
+15/03/25,Completa,Kleber Henrique Rodrigues Esteves,(84) 99222-4567,18," R$   1.830,75",Thiago,
+16/03/25,Completa,Eduardo Barros Xavier Queiroz,(94) 99333-5678,18," R$   1.841,27",Thiago,
+18/03/25,Menor,Larissa Teixeira Oliveira Yamada,(15) 99444-6789,18," R$   1.839,07",Rafael,
+18/03/25,Menor,Gabriel Oliveira Krause Xavier,(25) 99555-7890,6," R$        621,45",Rafael,
+18/03/25,Menor,Otávio Henrique Lopes Queiroz,(35) 99666-8901,12," R$   1.265,20",Rafael,
+18/03/25,Completa,Marcos Nogueira Lopes Souza Gomes Vieira,(45) 99777-9012,18," R$   1.844,95",Fernanda,
+20/03/25,Completa,Igor Pereira Campos Uchoa,(55) 99888-0123,6," R$        611,30",Fernanda,
+21/03/25,Completa,Vanessa Uchoa Teixeira Nogueira Oliveira Barros,(65) 99123-1234,18," R$   1.878,20",Fernanda,
+21/03/25,Completa,Otávio Wanderley Silva Lopes Cardoso,(75) 99234-2345,18," R$   1.830,00",Fernanda,
+22/03/25,Menor,Patrícia Gomes Vieira Almeida,(85) 99345-3456,18," R$   1.819,91",Rafael,
+22/03/25,Menor,Simone Farias Oliveira Silva,(95) 99456-4567,6," R$        691,70",Rafael,
+25/03/25,Menor,Otávio Jardim Almeida Silva Uchoa,(11) 99123-1111,6," R$        693,30",Thiago,
+25/03/25,Menor,Ana Vieira Lopes Krause Dias Zanetti,(21) 99234-2222,18," R$   1.845,47",Thiago,
+02/04/25,Menor,Vanessa Pereira Henrique Gomes,(43) 99345-3333,18," R$   1.818,22",Rafael,
+02/04/25,Menor,Juliana Cardoso Jardim Vieira Oliveira,(51) 99456-4444,12," R$   1.233,34",Rafael,
+03/04/25,Menor,Kleber Zanetti Ferreira Xavier Almeida Henrique,(61) 99567-5555,6," R$        695,10",Thiago,
+05/04/25,Completa,Daniela Henrique Rodrigues Vieira Yamada Queiroz,(71) 99678-6666,18," R$   1.833,08",Thiago,
+05/04/25,Completa,Simone Jardim Krause Almeida Gomes Oliveira,(81) 99789-7777,12," R$   1.244,39",Thiago,
+06/04/25,Completa,Rafael Esteves Ibrahim Farias,(91) 99890-8888,18," R$   1.835,57",Thiago,
+05/04/25,Completa,Igor Gomes Barros Xavier,(12) 99111-9999,18," R$   1.823,69",Thiago,
+05/04/25,Completa,Carlos Costa Esteves Almeida Cardoso,(22) 99222-0000,18," R$   1.817,31",Thiago,
+07/04/25,Completa,Rafael Queiroz Nogueira Dias Farias Esteves,(32) 99333-1111,12," R$   1.246,76",Fernanda,
+08/04/25,Completa,Thiago Esteves Uchoa Henrique Almeida,(42) 99444-2222,6," R$        623,28",Leticia,
+09/04/25,Completa,Thiago Rodrigues Henrique Silva,(52) 99555-3333,6," R$        643,96",Leticia,
+10/04/25,Completa,Natália Henrique Silva Costa Farias,(62) 99666-4444,18," R$   1.889,70",Marcelo,
+11/04/25,Completa,Daniela Queiroz Esteves Rodrigues Yamada Machado,(72) 99777-5555,12," R$   1.228,70",Thiago,
+11/04/25,Completa,Helena Ferreira Farias Xavier,(82) 99888-6666,18," R$   1.892,80",Leticia,
+14/04/25,Completa,Daniela Farias Barros Zanetti Queiroz Ferreira,(11) 99123-7777,6," R$        614,02",Fernanda,
+15/04/25,Completa,Marcos Esteves Farias Queiroz Souza Vieira,(21) 99234-8888,6," R$        641,30",Leticia,
+15/04/25,Completa,Thiago Uchoa Oliveira Cardoso Xavier,(43) 99345-9999,18," R$   1.822,19",Marcelo,
+15/04/25,Completa,Bruno Jardim Krause Cardoso Wanderley,(51) 99456-0000,12," R$   1.214,93",Leticia,
+16/04/25,Completa,Eduardo Krause Gomes Lopes,(61) 99567-1111,12," R$   1.224,88",Marcelo,
+17/04/25,Completa,Marcos Krause Teixeira Farias Oliveira,(71) 99678-2222,6," R$        666,90",Rafael,
+21/04/25,Completa,Thiago Cardoso Oliveira Dias Costa,(81) 99789-3333,18," R$   1.829,03",Rodrigo,
+21/04/25,Completa,Thiago Zanetti Yamada Ferreira Xavier Esteves,(91) 99890-4444,18," R$   1.864,00",Leticia,
+21/04/25,Completa,Marcos Teixeira Vieira Oliveira,(13) 99111-5555,12," R$   1.272,60",Rodrigo,
+22/04/25,Completa,Igor Esteves Nogueira Cardoso Wanderley Jardim,(23) 99222-6666,12," R$   1.222,52",Leticia,
+22/04/25,Completa,Carlos Barros Jardim Krause Vieira,(33) 99333-7777,12," R$   1.217,07",Leticia,
+22/04/25,Completa,Thiago Vieira Cardoso Dias Farias,(43) 99444-8888,6," R$        614,34",Thiago,
+22/04/25,Completa,Otávio Teixeira Esteves Gomes Henrique Uchoa,(53) 99555-9999,6," R$        618,33",Thiago,
+24/04/25,Completa,Otávio Esteves Machado Ferreira Henrique,(63) 99666-0000,18," R$   1.854,30",Leticia,
+24/04/25,Completa,Igor Gomes Cardoso Nogueira Farias Vieira,(73) 99777-1111,18," R$   1.815,92",Marcelo,
+24/04/25,Completa,Helena Machado Barros Costa Pereira,(83) 99888-2222,18," R$   1.888,90",Rodrigo,
+25/04/25,Completa,Patrícia Vieira Uchoa Rodrigues Wanderley Teixeira,(14) 99123-3333,12," R$   1.238,96",Leticia,
+28/04/25,Completa,Gabriel Jardim Queiroz Krause,(24) 99234-4444,12," R$   1.214,30",Rodrigo,
+28/04/25,Completa,Igor Jardim Farias Cardoso Vieira Xavier,(34) 99345-5555,12," R$   1.243,10",Leticia,
+29/04/25,Completa,Simone Souza Costa Lopes Teixeira,(44) 99456-6666,18," R$   1.845,86",Thiago,
+29/04/25,Completa,Juliana Barros Farias Costa Ferreira Xavier,(54) 99567-7777,6," R$        612,40",Leticia,
+30/04/25,Completa,Vanessa Vieira Rodrigues Barros Nogueira Farias,(64) 99678-8888,12," R$   1.225,62",Rodrigo,
+30/04/25,Completa,Larissa Silva Lopes Rodrigues,(74) 99789-9999,6," R$        627,75",Rodrigo,
+30/04/25,Completa,Rafael Rodrigues Vieira Henrique,(84) 99890-0000,18," R$   1.841,90",Marcelo,
+30/04/25,Completa,Gabriel Rodrigues Yamada Nogueira Almeida Xavier,(11) 99123-2468,18," R$   1.839,90",Leticia,
+30/04/25,Completa,Otávio Jardim Teixeira Ferreira Oliveira Wanderley,(21) 99234-1357,18," R$   1.830,50",Marcelo,
+30/04/25,Completa,Carlos Costa Pereira Jardim,(43) 99345-9821,18," R$   1.848,71",Marcelo,
+30/04/25,Completa,Helena Dias Campos Ibrahim Queiroz,(51) 99456-7531,18," R$   1.825,70",Leticia,
+30/04/25,Completa,Natália Xavier Gomes Ferreira,(61) 99567-4689,12," R$   1.226,48",Rodrigo,
+30/04/25,Completa,Carlos Campos Pereira Teixeira Jardim,(71) 99678-2198,18," R$   1.822,46",Rodrigo,
+02/05/25,Completa,Simone Farias Almeida Rodrigues Wanderley Uchoa,(81) 99789-6543,12," R$   1.225,64",Rafael,
+05/05/25,Completa,Gabriel Pereira Zanetti Machado,(91) 99890-9823,18," R$   1.843,38",Leticia,
+06/05/25,Completa,Juliana Machado Almeida Silva Gomes Cardoso,(12) 99111-7532,12," R$   1.217,32",Leticia,
+06/05/25,Completa,Marcos Ferreira Costa Ibrahim Queiroz,(22) 99222-4681,6," R$        618,58",Leticia,
+
+==========================================
+
+Estas são as bases que trabalharemos. Agora você sabe o que foi pedido e o que temos de dados. Vou também anexar uma imagem que foi mostrada, que mostra algumas requisições específicas do cliente. Leve ela e o transcrito da reunião em consideração.
+
+O QUE JÁ FOI FEITO ATÉ AGORA:
+
+Ontem tivemos uma reunião aonde nos apresentamos, olhamos as tabelas e conversamos sobre o que foi dito na reunião. Eu preparei alguns arquivos DBML com modelagens das camadas Bronze e Silver (wip) do nosso sistema. Estamos pretendendo usar SQLite 3 e VS Code (Python, Pandas) para esse projeto, por enquanto, visando a economia e a praticidade de uso considerando que são ferramentas mais simples de aprender e que eu já sei usar bem.
+Laerte e Luiz ficaram responsáveis em fazer o motor de consumo para a camada bronze. Os outros dois ficaram responsáveis por pesquisar layouts legais para apresentar os dashboards no final. Eu fiquei de suporte para ambas as duplas. Teremos uma reunião próxima quinta-feira.
+
+Aqui estão os DBML:
+BRONZE:
+Table bronze_vendas_alucar {
+  nome_cliente varchar
+  whatsapp varchar
+  data_venda date
+  mes int
+  ano int
+  valor_venda decimal
+}
+
+Table bronze_despesas_alucar {
+  mes varchar
+  nome_despesa varchar
+  valor decimal
+}
+
+Table bronze_vendas_consigcar {
+  nome_cliente varchar
+  whatsapp varchar
+  data_venda date
+  tipo_produto varchar
+  parcelas int
+  valor_parcela decimal
+  vendedor varchar
+  comentarios varchar
+}
+
+Table bronze_despesas_consigcar {
+  data date
+  categoria varchar
+  nome_despesa varchar
+  valor decimal
+}
+
+Table bronze_faturamento_pagseguro_consigcar {
+  mes varchar
+  valor_pagseguro decimal
+}
+
+SILVER:
+Table fato_vendas_alucar {
+  id_venda_alucar int [pk, increment]
+  id_cliente int [ref: > dim_cliente.id_cliente]
+  id_data int [ref: > dim_tempo.id_data]
+  valor_venda decimal
+}
+
+Table fato_vendas_consigcar {
+  id_venda_consigcar int [pk, increment]
+  id_cliente int [ref: > dim_cliente.id_cliente]
+  tipo_produto varchar
+  valor_total decimal
+  parcelas int
+  valor_parcela decimal
+  id_vendedor int [ref: >dim_vendedor.id_vendedor]
+  id_data int [ref: > dim_tempo.id_data]
+}
+
+Table fato_despesas_alucar {
+  id_despesa_alucar int [pk, increment]
+  categoria varchar
+  nome_despesa varchar
+  valor decimal
+  id_data int [ref: > dim_tempo.id_data]
+}
+
+Table fato_despesas_consigcar {
+  id_despesa_consigcar int [pk, increment]
+  categoria varchar
+  nome_despesa varchar
+  valor decimal
+  id_data int [ref: > dim_tempo.id_data]
+}
+
+Table fato_faturamento_pagseguro {
+  id_faturamento int [pk, increment]
+  id_data int [ref: > dim_tempo.id_data] // Para esta data, temos apenas o mês, e o ano está subentendido. Portanto, necessario atribuir um dia (padrão 01) para rastrear em dim_tempo 
+  valor_faturado decimal
+}
+
+Table dim_tempo {
+  id_data int [pk] // Ex: 20250102
+  data date
+  dia int
+  mes int
+  ano int
+  nome_mes varchar
+  dia_da_semana varchar
+  trimestre int
+}
+
+Table dim_cliente {
+  id_cliente int [pk, increment]
+  nome_cliente varchar
+  whatsapp varchar
+}
+
+Table dim_vendedor {
+  id_vendedor int [pk, increment]
+  nome_vendedor varchar
+}
+
+=======================================
+
+Aí é que você entra, GPT. Agora, você vai se fragmentar em duas personalidades:
+Uma delas é um Gerente de Projetos, chamado Tadeu, um cara sério e centrado, que irá transformar todos os pedidos do cliente em objetivos de desenvolvimento, utilizando a metodologia Kanbam. Conhecendo o prazo (26 de maio) e o perfil dos profissionais envolvidos, você vai atribuir as funções e organizar todas as reuniões e tarefas. Toda semana virei aqui falar com o Tadeu, então lembre dele. Por agora, quero saber o que o Tadeu pode nos atribuir além do que já decidimos para levar para a próxima reunião.
+A outra personalidade é Alexandre, um Engenheiro de Dados Senior experiente, com muito conhecimento técnico e mais descolado, confiante e jocoso. O Alexandre vai nos guiar na parte técnica, definindo as melhores tecnologias para utilizar, como implementar cada parte do nosso sistema, enfim, toda a parte técnica, com primor e desenvoltura. O Alexandre também nos ajudará a levantar perguntas técnicas que poderemos fazer a um consultor. Por hora, quero que ele seja um guia na nossa parte técnica. Estamos no caminho correto? Como está nosso sistema relacional? Principalmente a camada Silver, o que falta? Comente sobre isso, mas sobre outras coisas do projeto também. Lembre do Alexandre, pois também virei falar com ele constantemente. 
+
+Pode me perguntar qualquer coisa também, qualquer duvida que surgir. Entendido e combinado? Em anexo, a imagem que mencionei previamente.
