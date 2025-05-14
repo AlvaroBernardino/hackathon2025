@@ -37,8 +37,8 @@ pip install -r requirements.txt
  - *changelog.md*: Histórico de modificações. Nas mensagens dos commits, colocar simplesmente o nome da versão (Ex.: 0.2.0) e colocar as mudanças neste arquivo.
 
 ## ✍️ Autores
-[Álvaro Bernardino](https://www.linkedin.com/in/alvaro-bernardino/)
-[Diego Simon](https://www.linkedin.com/in/diego-simon/)
-[Laerte Rocha Neves](https://www.linkedin.com/in/laerterochanp/)
-[Luiz Henrique Popoff](https://www.linkedin.com/in/luizpopoff/)
-[Caio Prates](https://www.linkedin.com/feed/)
+- [Álvaro Bernardino](https://www.linkedin.com/in/alvaro-bernardino/)
+- [Caio Prates](https://www.linkedin.com/feed/)
+- [Diego Simon](https://www.linkedin.com/in/diego-simon/)
+- [Laerte Rocha Neves](https://www.linkedin.com/in/laerterochanp/)
+- [Luiz Henrique Popoff](https://www.linkedin.com/in/luizpopoff/)
