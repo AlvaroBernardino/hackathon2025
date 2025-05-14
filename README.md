@@ -33,6 +33,7 @@ pip install -r requirements.txt
  - *database*: Arquivos de bancos de dados
  - *etl*: Scripts de ETL
  - *mkdown*: Arquivos de texto que podem ser úteis
+ - *modelagem*: Arquivos .dbml para visualização fácil dos schemas
  - *retired*: Scripts e snippets de legado, que não serão utilizados no pipeline
  - *changelog.md*: Histórico de modificações. Nas mensagens dos commits, colocar simplesmente o nome da versão (Ex.: 0.2.0) e colocar as mudanças neste arquivo.
 
