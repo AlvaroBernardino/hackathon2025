@@ -1,0 +1,33 @@
+Table 00_despesas_alucar {
+  DESPESAS TEXT
+  Mês TEXT
+  Valor TEXT
+}
+
+Table 00_despesas_consigcar {
+  DESPESAS TEXT
+  Mês TEXT
+  Valor TEXT
+}
+
+Table 00_receita_pagseguro_consigcar {
+  Data DATE
+  Valor TEXT
+}
+
+Table 00_vendas_clientes_alucar {
+  Nome_(Alucar) TEXT
+  Data DATE
+  Mes BIGINT
+  Ano BIGINT
+  Valor_Receita TEXT
+}
+
+Table 00_vendas_clientes_alucar_estimativa {
+  Nome_(Alucar) TEXT
+  Data DATE
+  Mes BIGINT
+  Ano BIGINT
+  Valor_Receita TEXT
+}
+

@@ -1,0 +1,11 @@
+Table 00_vendas_clientes_consigcar {
+  Data do Pagamento DATE
+  Tipo Produto TEXT
+  Nome TEXT
+  WhatsApp TEXT
+  Quantidade de vezes FLOAT
+  Valor parcela FLOAT
+  Vendedor TEXT
+  Comentarios FLOAT
+}
+
