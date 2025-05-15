@@ -3,7 +3,7 @@ Table 00_vendas_clientes_consigcar {
   Tipo Produto TEXT
   Nome TEXT
   WhatsApp TEXT
-  Quantidade de vezes FLOAT
+  Quantidade de vezes BIGINT
   Valor parcela FLOAT
   Vendedor TEXT
   Comentarios FLOAT

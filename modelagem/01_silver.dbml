@@ -1,0 +1,69 @@
+Table dim_cliente {
+  id_cliente BIGINT
+  nome_cliente TEXT
+  whatsapp TEXT
+}
+
+Table dim_parcelamento {
+  id_parcelamento BIGINT
+  num_parcelas BIGINT
+  valor_parcela FLOAT
+  valor_total FLOAT
+  data_primeira_parcela BIGINT
+  data_ultima_parcela BIGINT
+}
+
+Table dim_tempo {
+  id_data BIGINT
+  data DATETIME
+  dia INTEGER
+  mes INTEGER
+  ano INTEGER
+  nome_mes TEXT
+  dia_da_semana TEXT
+  trimestre INTEGER
+}
+
+Table dim_vendedor {
+  id_vendedor BIGINT
+  nome_vendedor TEXT
+}
+
+Table fato_despesas {
+  id_despesa BIGINT
+  origem TEXT
+  categoria TEXT
+  nome_despesa TEXT
+  valor TEXT
+  id_data BIGINT
+}
+
+Table fato_faturamento_pagseguro {
+  id_faturamento BIGINT
+  id_data BIGINT
+  valor_faturado TEXT
+}
+
+Table fato_vendas_alucar {
+  id_venda_alucar BIGINT
+  id_data BIGINT
+  valor_venda TEXT
+}
+
+Table fato_vendas_consigcar {
+  id_venda_consigcar BIGINT
+  id_cliente TEXT
+  tipo_produto TEXT
+  id_parcelamento BIGINT
+  id_vendedor TEXT
+  id_data BIGINT
+}
+
+Table fato_vendas_mensais_consigcar {
+  id_vendedor TEXT
+  id_data FLOAT
+  valor_total BIGINT
+  quantidade_vendas BIGINT
+  bonus_meta TEXT
+}
+
