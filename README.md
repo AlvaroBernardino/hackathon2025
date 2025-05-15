@@ -39,7 +39,7 @@ pip install -r requirements.txt
 
 ## ✍️ Autores
 - [Álvaro Bernardino](https://www.linkedin.com/in/alvaro-bernardino/)
-- [Caio Prates](https://www.linkedin.com/feed/)
+- [Caio Prates](https://www.linkedin.com/feed/](https://www.linkedin.com/in/caiolpfreitas/)
 - [Diego Simon](https://www.linkedin.com/in/diego-simon/)
 - [Laerte Rocha Neves](https://www.linkedin.com/in/laerterochanp/)
 - [Luiz Henrique Popoff](https://www.linkedin.com/in/luizpopoff/)
