@@ -2,6 +2,7 @@ Table dim_cliente {
   id_cliente BIGINT
   nome_cliente TEXT
   whatsapp TEXT
+  empresa TEXT
 }
 
 Table dim_parcelamento {
@@ -34,7 +35,7 @@ Table fato_despesas {
   origem TEXT
   categoria TEXT
   nome_despesa TEXT
-  valor TEXT
+  valor FLOAT
   id_data BIGINT
 }
 
@@ -46,24 +47,27 @@ Table fato_faturamento_pagseguro {
 
 Table fato_vendas_alucar {
   id_venda_alucar BIGINT
+  id_cliente BIGINT
   id_data BIGINT
-  valor_venda TEXT
+  valor_venda FLOAT
 }
 
 Table fato_vendas_consigcar {
   id_venda_consigcar BIGINT
-  id_cliente TEXT
+  id_cliente BIGINT
   tipo_produto TEXT
-  id_parcelamento BIGINT
-  id_vendedor TEXT
-  id_data BIGINT
+  id_vendedor BIGINT
+  num_parcelas BIGINT
+  valor_parcela FLOAT
+  valor_total FLOAT
+  data_primeira_parcela BIGINT
+  data_ultima_parcela BIGINT
 }
 
-Table fato_vendas_mensais_consigcar {
-  id_vendedor TEXT
-  id_data FLOAT
-  valor_total BIGINT
-  quantidade_vendas BIGINT
-  bonus_meta TEXT
+Table fato_vendas_diaria_vendedor {
+  id_vendedor BIGINT
+  id_data BIGINT
+  total_vendas BIGINT
+  valor_total FLOAT
 }
 

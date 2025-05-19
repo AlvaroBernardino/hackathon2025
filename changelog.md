@@ -5,6 +5,13 @@ Todas as mudanças importantes neste projeto serão documentadas aqui.
 O formato é baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/)
 e este projeto segue a [SemVer](https://semver.org/lang/pt-BR/).
 
+## [0.3.1] - 2025-05-19
+### Adicionado
+-Notebooks de testes para execução de queries e verificação de tabelas
+
+### Corrigido
+- Problemas na transformação dos dados na camada Silver
+
 ## [0.3.0] - 2025-05-15
 ### Adicionado
 - Funções movidas para `__init__.py`

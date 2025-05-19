@@ -54,3 +54,6 @@ def sql_to_dbml(engine):
         dbml += "}\n\n"
 
     return dbml
+
+def convert_iddata(df, col_name):
+    return pd.to_datetime(df[col_name], format="%Y%m%d").dt.strftime("%Y%m%d").astype("Int64")
