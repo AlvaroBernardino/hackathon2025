@@ -5,13 +5,19 @@ Table dim_cliente {
   empresa TEXT
 }
 
+Table dim_pagamentos_programados {
+  id_venda_consigcar BIGINT
+  valor FLOAT
+  id_data TEXT
+}
+
 Table dim_parcelamento {
-  id_parcelamento BIGINT
-  num_parcelas BIGINT
-  valor_parcela FLOAT
-  valor_total FLOAT
-  data_primeira_parcela BIGINT
-  data_ultima_parcela BIGINT
+  id_parcelamento INTEGER [pk]
+  num_parcelas SMALLINT
+  valor_parcela DECIMAL(10, 2)
+  valor_total DECIMAL(10, 2)
+  data_primeira_parcela INTEGER
+  data_ultima_parcela INTEGER
 }
 
 Table dim_tempo {

@@ -1,0 +1,79 @@
+Table g_dre {
+  id_data BIGINT [pk]
+  ano INTEGER
+  mes INTEGER
+  categoria TEXT
+  tipo TEXT
+  valor FLOAT
+}
+
+Table g_fato_financas_anual {
+  id_data BIGINT [not null]
+  receita_total FLOAT
+  despesas_total FLOAT
+  lucro FLOAT
+  margem_lucro FLOAT
+  evolucao_lucro FLOAT
+}
+
+Table g_fato_financas_anual_alucar {
+  id_data BIGINT
+  receita_total FLOAT
+  despesas_total FLOAT
+  lucro FLOAT
+  margem_lucro FLOAT
+  evolucao_lucro FLOAT
+}
+
+Table g_fato_financas_anual_consigcar {
+  id_data BIGINT
+  receita_total FLOAT
+  despesas_total FLOAT
+  lucro FLOAT
+  margem_lucro FLOAT
+  evolucao_lucro FLOAT
+}
+
+Table g_fato_financas_mensal {
+  id_data BIGINT
+  receita_total FLOAT
+  despesas_total FLOAT
+  lucro FLOAT
+  margem_lucro FLOAT
+  evolucao_lucro FLOAT
+}
+
+Table g_fato_financas_mensal_alucar {
+  id_data BIGINT
+  receita_total FLOAT
+  despesas_total FLOAT
+  lucro FLOAT
+  margem_lucro FLOAT
+  evolucao_lucro FLOAT
+}
+
+Table g_fato_financas_mensal_consigcar {
+  id_data BIGINT
+  receita_total FLOAT
+  despesas_total FLOAT
+  lucro FLOAT
+  margem_lucro FLOAT
+  evolucao_lucro FLOAT
+}
+
+Table g_plr_vendas_ultimos_10_dias {
+  id_vendedor BIGINT
+  id_data BIGINT
+  total_vendas BIGINT
+  valor_parcelas_total FLOAT
+  ranking BIGINT
+}
+
+Table g_plr_vendas_vendedor_mensal {
+  id_vendedor BIGINT
+  id_data BIGINT
+  total_vendas BIGINT
+  valor_parcelas_total FLOAT
+  ranking BIGINT
+}
+
