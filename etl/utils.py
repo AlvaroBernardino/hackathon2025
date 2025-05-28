@@ -8,6 +8,7 @@ def edit_sheet(df):
     df.columns = df.columns.str.replace(' ', '_', regex=True)
     return df
 
+## Função para converter o SQL para DBML
 def sql_to_dbml(engine):
     inspector = inspect(engine)
     dbml = ""
@@ -55,5 +56,37 @@ def sql_to_dbml(engine):
 
     return dbml
 
+## Função para converter a coluna de data para o formato id_data
 def convert_iddata(df, col_name):
     return pd.to_datetime(df[col_name], format="%Y%m%d").dt.strftime("%Y%m%d").astype("Int64")
+
+## Função para classificar as despesas
+def classificar_despesa(item):
+    if item in [
+        'Despesas com matéria-prima',
+        'Despesas de transporte e logística',
+        'Mecanicos',
+        'Manutenção de equipamentos'
+    ]:
+        return 'Custos Variáveis (CPV)'
+
+    elif item in [
+        'Despesas com marketing e publicidade',
+        'Despesas com viagens e deslocamentos',
+        'Despesas com telefonia móvel e fixa',
+        'Trafego', 'Google Ads', 'Meta Ads', 'LinkedIn Ads', 'CRM', 'Landin page'
+    ]:
+        return 'Despesas Comerciais'
+
+    elif item in [
+        'Impostos e taxas'
+    ]:
+        return 'Impostos'
+
+    elif item in [
+        'Treinamento'
+    ]:
+        return 'Desenvolvimento Pessoal'
+
+    else:
+        return 'Despesas Administrativas'

@@ -20,17 +20,15 @@ cd hackathon2025
 ```bash
 pip install -r requirements.txt
 ```
-3. Baixe o CSV fonte:
-- Acesse [a tabela base 2](https://empregadados-my.sharepoint.com/:x:/g/personal/bianca_empregadados_com_br/EZYutqfo5ldNhDw2lMYRxrIBnpPI6c7OTjBBS_F5yz860Q?rtime=to82V2qS3Ug)
-- Exporte como CSV na pasta "database"
-  
-4. Execute os notebooks
+3. Execute os notebooks
 - Execute os notebooks da pasta "etl" na ordem numérica
 
+4. Verifique os bancos de dados locais
+- Utilize os scripts na pasta "tests" para verificar os bancos de dados através de "SELECT"
+
 ## 🧪 Diretórios
- - *config*: Arquivos de configuração
- - *data*: Dados crus (Landing zone)
- - *database*: Arquivos de bancos de dados
+ - *config*: Arquivos de configuração, credenciais
+  - *database*: Arquivos de bancos de dados
  - *etl*: Scripts de ETL
  - *mkdown*: Arquivos de texto que podem ser úteis
  - *modelagem*: Arquivos .dbml para visualização fácil dos schemas

@@ -2,17 +2,37 @@ Table 00_despesas_alucar {
   DESPESAS TEXT
   Mês TEXT
   Valor TEXT
+  timestamp TEXT
 }
 
 Table 00_despesas_consigcar {
   DESPESAS TEXT
   Mês TEXT
   Valor TEXT
+  timestamp TEXT
+}
+
+Table 00_metas_plr {
+  Ano TEXT
+  Mês BIGINT
+  Meta_1_ALUCAR BIGINT
+  Meta_2_ALUCAR BIGINT
+  Meta_1_ConsigCar BIGINT
+  Meta_2_ConsigCar BIGINT
+  Data DATETIME
+  timestamp TEXT
+}
+
+Table 00_receita_consigcar_estimativa {
+  Data DATE
+  Valor TEXT
+  timestamp TEXT
 }
 
 Table 00_receita_pagseguro_consigcar {
   Data DATE
   Valor TEXT
+  timestamp TEXT
 }
 
 Table 00_vendas_clientes_alucar {
@@ -21,6 +41,7 @@ Table 00_vendas_clientes_alucar {
   Mes BIGINT
   Ano BIGINT
   Valor_Receita TEXT
+  timestamp TEXT
 }
 
 Table 00_vendas_clientes_alucar_estimativa {
@@ -29,5 +50,6 @@ Table 00_vendas_clientes_alucar_estimativa {
   Mes BIGINT
   Ano BIGINT
   Valor_Receita TEXT
+  timestamp TEXT
 }
 

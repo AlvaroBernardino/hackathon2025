@@ -1,79 +1,121 @@
-Table g_dre {
-  id_data BIGINT [pk]
-  ano INTEGER
-  mes INTEGER
+Table g_dre_despesas {
+  id_despesa INTEGER
+  origem TEXT
   categoria TEXT
-  tipo TEXT
-  valor FLOAT
+  nome_despesa TEXT
+  valor INTEGER
+  id_data INTEGER
 }
 
 Table g_fato_financas_anual {
-  id_data BIGINT [not null]
-  receita_total FLOAT
-  despesas_total FLOAT
-  lucro FLOAT
-  margem_lucro FLOAT
-  evolucao_lucro FLOAT
+  id_data INTEGER [not null]
+  receita_total DECIMAL(10, 2)
+  despesas_total DECIMAL(10, 2)
+  lucro DECIMAL(10, 2)
+  margem_lucro DECIMAL(10, 2)
+  evolucao_lucro DECIMAL(10, 2)
 }
 
 Table g_fato_financas_anual_alucar {
-  id_data BIGINT
-  receita_total FLOAT
-  despesas_total FLOAT
-  lucro FLOAT
+  id_data INTEGER
+  receita_total INTEGER
+  despesas_total INTEGER
+  lucro INTEGER
   margem_lucro FLOAT
   evolucao_lucro FLOAT
 }
 
 Table g_fato_financas_anual_consigcar {
-  id_data BIGINT
-  receita_total FLOAT
-  despesas_total FLOAT
-  lucro FLOAT
+  id_data INTEGER
+  receita_total INTEGER
+  despesas_total INTEGER
+  lucro INTEGER
   margem_lucro FLOAT
   evolucao_lucro FLOAT
 }
 
 Table g_fato_financas_mensal {
-  id_data BIGINT
-  receita_total FLOAT
-  despesas_total FLOAT
-  lucro FLOAT
+  id_data INTEGER
+  receita_total INTEGER
+  despesas_total INTEGER
+  lucro INTEGER
   margem_lucro FLOAT
   evolucao_lucro FLOAT
 }
 
 Table g_fato_financas_mensal_alucar {
-  id_data BIGINT
-  receita_total FLOAT
-  despesas_total FLOAT
-  lucro FLOAT
+  id_data INTEGER
+  receita_total INTEGER
+  despesas_total INTEGER
+  lucro INTEGER
   margem_lucro FLOAT
   evolucao_lucro FLOAT
 }
 
 Table g_fato_financas_mensal_consigcar {
-  id_data BIGINT
-  receita_total FLOAT
-  despesas_total FLOAT
-  lucro FLOAT
+  id_data INTEGER
+  receita_total INTEGER
+  despesas_total INTEGER
+  lucro INTEGER
   margem_lucro FLOAT
   evolucao_lucro FLOAT
+  parcelamentos_receber INTEGER
+  faturamento_pagseguro INTEGER
+  lucro_pag INTEGER
+  margem_lucro_pag FLOAT
+  evolucao_lucro_pag FLOAT
+}
+
+Table g_fato_vendas_alucar_estimativa {
+  id_data INTEGER
+  valor_receita_estimativa FLOAT
+}
+
+Table g_metas_alucar {
+  id_data INTEGER
+  meta_vendas_1_cum INTEGER
+  meta_vendas_2_cum INTEGER
+  meta_vendas_1_mes FLOAT
+  meta_vendas_2_mes FLOAT
+  vendas_mes INTEGER
+  vendas_cum INTEGER
+  meta_cum_atingida INTEGER
+  meta_mes_atingida INTEGER
+}
+
+Table g_metas_consigcar {
+  id_data INTEGER
+  meta_vendas_1_cum INTEGER
+  meta_vendas_2_cum INTEGER
+  meta_vendas_1_mes FLOAT
+  meta_vendas_2_mes FLOAT
+  vendas_mes INTEGER
+  vendas_cum INTEGER
+  meta_cum_atingida INTEGER
+  meta_mes_atingida INTEGER
 }
 
 Table g_plr_vendas_ultimos_10_dias {
-  id_vendedor BIGINT
-  id_data BIGINT
-  total_vendas BIGINT
-  valor_parcelas_total FLOAT
-  ranking BIGINT
+  id_vendedor INTEGER
+  id_data INTEGER
+  total_vendas INTEGER
+  valor_total INTEGER
+  ranking INTEGER
+}
+
+Table g_plr_vendas_vendedor_diaria {
+  id_data INTEGER
+  id_vendedor INTEGER
+  total_vendas INTEGER
+  valor_total INTEGER
+  nome_vendedor TEXT
 }
 
 Table g_plr_vendas_vendedor_mensal {
-  id_vendedor BIGINT
-  id_data BIGINT
-  total_vendas BIGINT
-  valor_parcelas_total FLOAT
-  ranking BIGINT
+  id_vendedor INTEGER
+  total_vendas INTEGER
+  valor_parcelas_total INTEGER
+  id_data INTEGER
+  ranking INTEGER
 }
 

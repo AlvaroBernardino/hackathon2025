@@ -5,6 +5,11 @@ Todas as mudanças importantes neste projeto serão documentadas aqui.
 O formato é baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/)
 e este projeto segue a [SemVer](https://semver.org/lang/pt-BR/).
 
+## [0.4.1] - 2025-05-27
+### Adicionado
+- Timestamp para a camada bronze (data de ingestão)
+- 
+
 ## [0.4.0] - 2025-05-19
 ### Adicionado
 - Implementação dos scripts da camada Gold, estruturando as tabelas consolidadas e visões de negócio.
@@ -23,7 +28,7 @@ e este projeto segue a [SemVer](https://semver.org/lang/pt-BR/).
 
 ## [0.3.0] - 2025-05-15
 ### Adicionado
-- Funções movidas para `__init__.py`
+- Funções movidas para `utils.py`
 - Função de leitura de planilha direto de link do SharePoint (bronze)
 - Script de transformação para camada silver
 - Script de testes para os bancos de dados

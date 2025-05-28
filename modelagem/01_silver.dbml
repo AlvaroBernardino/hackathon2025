@@ -48,7 +48,23 @@ Table fato_despesas {
 Table fato_faturamento_pagseguro {
   id_faturamento BIGINT
   id_data BIGINT
-  valor_faturado TEXT
+  valor_faturado FLOAT
+}
+
+Table fato_metas_alucar {
+  id_data BIGINT
+  meta_vendas_1_cum BIGINT
+  meta_vendas_2_cum BIGINT
+  meta_vendas_1_mes FLOAT
+  meta_vendas_2_mes FLOAT
+}
+
+Table fato_metas_consigcar {
+  id_data BIGINT
+  meta_vendas_1_cum BIGINT
+  meta_vendas_2_cum BIGINT
+  meta_vendas_1_mes FLOAT
+  meta_vendas_2_mes FLOAT
 }
 
 Table fato_vendas_alucar {
@@ -56,6 +72,11 @@ Table fato_vendas_alucar {
   id_cliente BIGINT
   id_data BIGINT
   valor_venda FLOAT
+}
+
+Table fato_vendas_clientes_alucar_estimativa {
+  id_data BIGINT
+  valor_receita_estimativa FLOAT
 }
 
 Table fato_vendas_consigcar {

@@ -7,5 +7,6 @@ Table 00_vendas_clientes_consigcar {
   Valor parcela FLOAT
   Vendedor TEXT
   Comentarios FLOAT
+  timestamp TEXT
 }
 
