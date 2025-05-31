@@ -8,7 +8,7 @@
 
 import pandas as pd
 import os
-from sqlalchemy import create_engine, inspect, text
+from sqlalchemy import create_engine, inspect, text, Integer, Float, Text
 from io import BytesIO
 import requests
 from datetime import datetime
@@ -108,7 +108,7 @@ CREATE TABLE IF NOT EXISTS g_fato_financas_anual_consigcar (
 """,
 """
 -- DRE simplificada com categorias
-CREATE TABLE IF NOT EXISTS g_dre (
+CREATE TABLE IF NOT EXISTS g_dre_despesas (
   id_data INTEGER NOT NULL PRIMARY KEY, -- Chave primária referenciando a data
   ano INTEGER,                        -- Ano da competência
   mes INTEGER,                        -- Mês da competência
@@ -195,7 +195,7 @@ with engine_gold.begin() as conn:
 
 # # Transformação e preenchimento das colunas
 
-# In[ ]:
+# In[5]:
 
 
 # g_fato_financas_mensal_alucar
@@ -218,7 +218,7 @@ df_fato_financas_mensal_alucar = df_fato_financas_mensal_alucar.sort_values('id_
 # Calcula a receita total por mês a partir das vendas da Alucar
 df_receita = pd.read_sql_query("""
     SELECT 
-        (CAST(CAST(dt.ano AS TEXT) || substr('0' || CAST(dt.mes AS TEXT), -2) || '01' AS BIGINT)) as id_data,
+        (CAST(CAST(dt.ano AS TEXT) || substr('0' || CAST(dt.mes AS TEXT), -2) || '01' AS int)) as id_data,
         SUM(fva.valor_venda) as receita_total
     FROM fato_vendas_alucar fva
     JOIN dim_tempo dt ON fva.id_data = dt.id_data 
@@ -235,7 +235,7 @@ df_fato_financas_mensal_alucar = df_fato_financas_mensal_alucar.merge(
 # Calcula o total de despesas por mês para Alucar
 df_despesas = pd.read_sql_query("""
     SELECT 
-        (CAST(CAST(dt.ano AS TEXT) || substr('0' || CAST(dt.mes AS TEXT), -2) || '01' AS BIGINT)) as id_data,
+        (CAST(CAST(dt.ano AS TEXT) || substr('0' || CAST(dt.mes AS TEXT), -2) || '01' AS int)) as id_data,
         SUM(fd.valor) as despesas_total
     FROM fato_despesas fd
     JOIN dim_tempo dt ON fd.id_data = dt.id_data
@@ -263,14 +263,22 @@ df_fato_financas_mensal_alucar['evolucao_lucro'] = df_fato_financas_mensal_aluca
 df_fato_financas_mensal_alucar = df_fato_financas_mensal_alucar.fillna(0)
 
 # Insere os dados na tabela g_fato_financas_mensal_alucar
-df_fato_financas_mensal_alucar.to_sql('g_fato_financas_mensal_alucar', engine_gold, if_exists='replace', index=False)
+from sqlalchemy import Integer, Float
+df_fato_financas_mensal_alucar.to_sql('g_fato_financas_mensal_alucar', engine_gold, if_exists='replace', index=False, dtype={
+    'id_data': Integer(),
+    'receita_total': Integer(),
+    'despesas_total': Integer(),
+    'lucro': Integer(),
+    'margem_lucro': Float(),
+    'evolucao_lucro': Float()
+})
 
 # Filtra apenas datas de 2025 e exibe o DataFrame
-print("\nDados financeiros mensais Alucar 2025:")
-print(df_fato_financas_mensal_alucar[df_fato_financas_mensal_alucar['id_data'].astype(str).str.startswith('2025')].to_string())
+#print("\nDados financeiros mensais Alucar 2025:")
+#print(df_fato_financas_mensal_alucar[df_fato_financas_mensal_alucar['id_data'].astype(str).str.startswith('2025')].to_string())
 
 
-# In[ ]:
+# In[6]:
 
 
 # g_fato_financas_mensal_consigcar
@@ -388,16 +396,28 @@ df_fato_financas_mensal_consigcar['evolucao_lucro_pag'] = df_fato_financas_mensa
 
 
 # Insere os dados na tabela g_fato_financas_mensal_consigcar
-df_fato_financas_mensal_consigcar.to_sql('g_fato_financas_mensal_consigcar', engine_gold, if_exists='replace', index=False)
+df_fato_financas_mensal_consigcar.to_sql('g_fato_financas_mensal_consigcar', engine_gold, if_exists='replace', index=False, dtype={
+    'id_data': Integer(),
+    'receita_total': Integer(),
+    'despesas_total': Integer(),
+    'lucro': Integer(),
+    'margem_lucro': Float(),
+    'evolucao_lucro': Float(),
+    'parcelamentos_receber': Integer(),
+    'faturamento_pagseguro': Integer(),
+    'lucro_pag': Integer(),
+    'margem_lucro_pag': Float(),
+    'evolucao_lucro_pag': Float()
+})
 
-print(df_fato_financas_mensal_consigcar[df_fato_financas_mensal_consigcar['id_data'].astype(str).str.startswith('2025')])
+# print(df_fato_financas_mensal_consigcar[df_fato_financas_mensal_consigcar['id_data'].astype(str).str.startswith('2025')])
 
 # Lista todas das colunas e seus tipos do DataFrame
 # for col in df_fato_financas_mensal_consigcar.columns:
 #  print(f"{col}: {df_fato_financas_mensal_consigcar[col].dtype}")
 
 
-# In[ ]:
+# In[7]:
 
 
 # g_fato_financas_mensal
@@ -416,18 +436,19 @@ df_fato_financas_mensal = pd.merge(
     suffixes=('_consigcar', '_alucar')
 )
 
-# Preenche valores nulos com 0 para fazer as somas
+# Preenche valores nulos com 0 para fazer as somas e converte para int
 df_fato_financas_mensal = df_fato_financas_mensal.fillna(0)
+df_fato_financas_mensal['id_data'] = df_fato_financas_mensal['id_data'].astype('int')
 
-# Soma os valores das duas empresas
-df_fato_financas_mensal['receita_total'] = df_fato_financas_mensal['receita_total_consigcar'] + df_fato_financas_mensal['receita_total_alucar']
-df_fato_financas_mensal['despesas_total'] = df_fato_financas_mensal['despesas_total_consigcar'] + df_fato_financas_mensal['despesas_total_alucar']
-df_fato_financas_mensal['lucro'] = df_fato_financas_mensal['lucro_consigcar'] + df_fato_financas_mensal['lucro_alucar']
+# Soma os valores das duas empresas e converte para int
+df_fato_financas_mensal['receita_total'] = (df_fato_financas_mensal['receita_total_consigcar'] + df_fato_financas_mensal['receita_total_alucar']).astype('int')
+df_fato_financas_mensal['despesas_total'] = (df_fato_financas_mensal['despesas_total_consigcar'] + df_fato_financas_mensal['despesas_total_alucar']).astype('int')
+df_fato_financas_mensal['lucro'] = (df_fato_financas_mensal['lucro_consigcar'] + df_fato_financas_mensal['lucro_alucar']).astype('int')
 
-# Calcula a margem de lucro total
+# Calcula a margem de lucro total (mantém como float)
 df_fato_financas_mensal['margem_lucro'] = (df_fato_financas_mensal['lucro'] / df_fato_financas_mensal['receita_total']) * 100
 
-# Calcula a evolução do lucro
+# Calcula a evolução do lucro (mantém como float)
 df_fato_financas_mensal = df_fato_financas_mensal.sort_values('id_data')
 df_fato_financas_mensal['evolucao_lucro'] = df_fato_financas_mensal['lucro'].pct_change() * 100
 
@@ -442,14 +463,20 @@ df_fato_financas_mensal = df_fato_financas_mensal[[
 ]]
 
 # Insere os dados na tabela g_fato_financas_mensal
-df_fato_financas_mensal.to_sql('g_fato_financas_mensal', engine_gold, if_exists='replace', index=False)
+df_fato_financas_mensal.to_sql('g_fato_financas_mensal', engine_gold, if_exists='replace', index=False, dtype={
+    'id_data': Integer(),
+    'receita_total': Integer(),
+    'despesas_total': Integer(),
+    'lucro': Integer(),
+    'margem_lucro': Float(),
+    'evolucao_lucro': Float()
+})
 
 # Imprime o DataFrame para verificação apenas de 2025
-print(df_fato_financas_mensal[df_fato_financas_mensal['id_data'].astype(str).str.startswith('2025')])
+# print(df_fato_financas_mensal[df_fato_financas_mensal['id_data'].astype(str).str.startswith('2025')])
 
 
-
-# In[ ]:
+# In[8]:
 
 
 # g_fato_financas_anual_alucar
@@ -489,19 +516,23 @@ df_alucar_anual = df_alucar_anual[[
     'evolucao_lucro'
 ]]
 
-# Converte id_data para BIGINT
-df_alucar_anual['id_data'] = df_alucar_anual['id_data'].astype('int64')
 
 # Insere os dados na tabela g_fato_financas_anual_alucar
-df_alucar_anual.to_sql('g_fato_financas_anual_alucar', engine_gold, if_exists='replace', index=False)
+df_alucar_anual.to_sql('g_fato_financas_anual_alucar', engine_gold, if_exists='replace', index=False, dtype={
+    'id_data': Integer(),
+    'receita_total': Integer(),
+    'despesas_total': Integer(),
+    'lucro': Integer(),
+    'margem_lucro': Float(),
+    'evolucao_lucro': Float()
+})
 
 # Imprime o DataFrame para verificação
-print("\nDados anuais da Alucar:")
-print(df_alucar_anual)
+# print("\nDados anuais da Alucar:")
+# print(df_alucar_anual)
 
 
-
-# In[ ]:
+# In[9]:
 
 
 # g_fato_financas_anual_consigcar
@@ -542,25 +573,46 @@ df_consigcar_anual = df_consigcar_anual[[
     'evolucao_lucro'
 ]]
 
-# Converte id_data para BIGINT
-df_consigcar_anual['id_data'] = df_consigcar_anual['id_data'].astype('int64')
-
 # Insere os dados na tabela g_fato_financas_anual_consigcar
-df_consigcar_anual.to_sql('g_fato_financas_anual_consigcar', engine_gold, if_exists='replace', index=False)
+df_consigcar_anual.to_sql('g_fato_financas_anual_consigcar', engine_gold, if_exists='replace', index=False, dtype={
+    'id_data': Integer(),
+    'receita_total': Integer(),
+    'despesas_total': Integer(),
+    'lucro': Integer(),
+    'margem_lucro': Float(),
+    'evolucao_lucro': Float()
+})
 
 # Imprime o DataFrame para verificação
-print("\nDados anuais da Consigcar:")
-print(df_consigcar_anual)
+# print("\nDados anuais da Consigcar:")
+# print(df_consigcar_anual)
 
 
 # In[10]:
 
 
-# g_dre
+# g_dre_despesas
 # Preciso ver como fazer essa tabela
+# Lê os dados da tabela fato_despesas da camada silver
+df_despesas = pd.read_sql("""
+    SELECT *
+    FROM fato_despesas
+""", engine_silver)
+
+# Converte todas as colunas integer para INT
+for col in df_despesas.select_dtypes(include=['int64']).columns:
+    df_despesas[col] = df_despesas[col].astype('int')
+
+# Insere os dados na tabela g_dre_despesas
+df_despesas.to_sql('g_dre_despesas', engine_gold, if_exists='replace', index=False, dtype={
+    'id_data': Integer(),
+    'id_despesa': Integer(),
+    'id_tipo_despesa': Integer(),
+    'valor': Integer()
+})
 
 
-# In[ ]:
+# In[11]:
 
 
 # g_plr_vendas_vendedor_mensal
@@ -597,28 +649,20 @@ df_vendas_mensais['ranking'] = df_vendas_mensais.groupby('id_data')['valor_total
 # Renomeia a coluna valor_total para valor_parcelas_total para manter consistência com o modelo
 df_vendas_mensais = df_vendas_mensais.rename(columns={'valor_total': 'valor_parcelas_total'})
 
-# Converte id_data para BIGINT
-df_vendas_mensais['id_data'] = df_vendas_mensais['id_data'].astype('int64')
-
-# Ordena as colunas conforme o modelo
-df_vendas_mensais = df_vendas_mensais[[
-    'id_vendedor',
-    'id_data',
-    'total_vendas',
-    'valor_parcelas_total',
-    'ranking'
-]]
-
 # Insere os dados na tabela g_plr_vendas_vendedor_mensal
-df_vendas_mensais.to_sql('g_plr_vendas_vendedor_mensal', engine_gold, if_exists='replace', index=False)
+df_vendas_mensais.to_sql('g_plr_vendas_vendedor_mensal', engine_gold, if_exists='replace', index=False, dtype={
+    'id_data': Integer(),
+    'id_vendedor': Integer(),
+    'total_vendas': Integer(),
+    'valor_parcelas_total': Integer(),
+    'ranking': Integer()
+})
 
-print("Dados inseridos com sucesso na tabela g_plr_vendas_vendedor_mensal")
-print(df_vendas_mensais.head())
+# print("Dados inseridos com sucesso na tabela g_plr_vendas_vendedor_mensal")
+# print(df_vendas_mensais.head())
 
 
-
-
-# In[ ]:
+# In[12]:
 
 
 # g_plr_vendas_ultimos_10_dias
@@ -654,33 +698,20 @@ df_vendas_agrupadas = df_vendas_ultimos_10_dias.groupby(['id_vendedor', 'id_data
 # Calcula o ranking diário baseado no valor total
 df_vendas_agrupadas['ranking'] = df_vendas_agrupadas.groupby('id_data')['valor_total'].rank(ascending=False, method='dense').astype(int)
 
-# Converte id_data para BIGINT
-df_vendas_agrupadas['id_data'] = df_vendas_agrupadas['id_data'].astype('int64')
-
-# Ordena as colunas conforme o modelo
-df_vendas_agrupadas = df_vendas_agrupadas[[
-    'id_data',
-    'id_vendedor',
-    'total_vendas',
-    'valor_total',
-    'ranking'
-]]
-df_vendas_mensais = df_vendas_mensais[[
-    'id_vendedor',
-    'id_data',
-    'total_vendas',
-    'valor_parcelas_total',
-    'ranking'
-]]
-
 # Insere os dados na tabela g_plr_vendas_ultimos_10_dias
-df_vendas_mensais.to_sql('g_plr_vendas_ultimos_10_dias', engine_gold, if_exists='replace', index=False)
+df_vendas_agrupadas.to_sql('g_plr_vendas_ultimos_10_dias', engine_gold, if_exists='replace', index=False, dtype={
+    'id_data': Integer(),
+    'id_vendedor': Integer(),
+    'total_vendas': Integer(),
+    'valor_total': Integer(),
+    'ranking': Integer()
+})
 
-print("Dados inseridos com sucesso na tabela g_plr_vendas_ultimos_10_dias")
-print(df_vendas_mensais.head())
+# print("Dados inseridos com sucesso na tabela g_plr_vendas_ultimos_10_dias")
+# print(df_vendas_agrupadas.head())
 
 
-# In[ ]:
+# In[13]:
 
 
 # g_plr_vendas_vendedor_diaria
@@ -705,51 +736,17 @@ df_vendedores = pd.read_sql("""
 # Junta as tabelas para obter o nome do vendedor
 df_vendas_diarias = df_vendas_diarias.merge(df_vendedores, on='id_vendedor', how='left')
 
-# Converte id_data para BIGINT
-df_vendas_diarias['id_data'] = df_vendas_diarias['id_data'].astype('int64')
-
-# Ordena as colunas conforme especificado
-df_vendas_diarias = df_vendas_diarias[[
-    'id_data',
-    'id_vendedor',
-    'nome_vendedor',
-    'total_vendas',
-    'valor_total'
-]]
-
 # Insere os dados na tabela g_plr_vendas_vendedor_diaria
-df_vendas_diarias.to_sql('g_plr_vendas_vendedor_diaria', engine_gold, if_exists='replace', index=False)
+df_vendas_diarias.to_sql('g_plr_vendas_vendedor_diaria', engine_gold, if_exists='replace', index=False, dtype={
+    'id_data': Integer(),
+    'id_vendedor': Integer(),
+    'nome_vendedor': Text(),
+    'total_vendas': Integer(),
+    'valor_total': Integer()
+})
 
 
-# In[ ]:
-
-
-# g_metas_consigcar
-# Carrega dados da tabela fato_metas_consigcar da camada Silver
-df_metas = pd.read_sql("""
-    SELECT 
-        id_data,
-        meta_vendas_1_cum,
-        meta_vendas_2_cum,
-        meta_vendas_1_mes,
-        meta_vendas_2_mes
-    FROM fato_metas_consigcar
-""", engine_silver)
-
-# print(df_metas)
-
-# Carrega dados de vendas para calcular metas batidas
-df_vendas = pd.read_sql("""
-    SELECT 
-        data_primeira_parcela,
-        valor_total
-    FROM fato_vendas_consigcar
-""", engine_silver)
-
-print (df_vendas)
-
-
-# In[ ]:
+# In[14]:
 
 
 # g_metas_consigcar
@@ -799,6 +796,10 @@ vendas_cum = vendas_cum[['id_data', 'ano', 'vendas_cum']]
 df_metas = df_metas.merge(vendas_mensais, on='id_data', how='left')
 df_metas = df_metas.merge(vendas_cum, on=['id_data', 'ano'], how='left')
 
+# Preenche colunas com 0 onde houver NA
+df_metas['vendas_mes'] = df_metas['vendas_mes'].fillna(0)
+df_metas['vendas_cum'] = df_metas['vendas_cum'].fillna(0)
+
 # Calcula meta batida mes
 df_metas['meta_cum_atingida'] = 0
 df_metas.loc[(df_metas['vendas_cum'] >= df_metas['meta_vendas_1_cum']) & 
@@ -824,24 +825,21 @@ df_metas = df_metas[[
     'meta_mes_atingida'
 ]]
 
-# Converte todas as colunas para INTEGER no final
-df_metas = df_metas.astype({
-    'id_data': 'int64',
-    'meta_vendas_1_cum': 'int64',
-    'meta_vendas_2_cum': 'int64',
-    'meta_vendas_1_mes': 'int64',
-    'meta_vendas_2_mes': 'int64',
-    'vendas_mes': 'int64',
-    'vendas_cum': 'int64',
-    'meta_cum_atingida': 'int64',
-    'meta_mes_atingida': 'int64'
+# Insere os dados na tabela g_metas_consigcar
+df_metas.to_sql('g_metas_consigcar', engine_gold, if_exists='replace', index=False, dtype={
+    'id_data': Integer(),
+    'meta_vendas_1_cum': Integer(),
+    'meta_vendas_2_cum': Integer(),
+    'meta_vendas_1_mes': Float(),
+    'meta_vendas_2_mes': Float(),
+    'vendas_mes': Integer(),
+    'vendas_cum': Integer(),
+    'meta_cum_atingida': Integer(),
+    'meta_mes_atingida': Integer()
 })
 
-# Insere os dados na tabela g_metas_consigcar
-df_metas.to_sql('g_metas_consigcar', engine_gold, if_exists='replace', index=False)
 
-
-# In[32]:
+# In[15]:
 
 
 # g_metas_alucar
@@ -855,41 +853,6 @@ df_metas = pd.read_sql("""
         meta_vendas_2_mes
     FROM fato_metas_alucar
 """, engine_silver)
-
-# Carrega dados de vendas para contar quantas vendas foram feitas
-#df_vendas = pd.read_sql("""
-#    SELECT 
-#        id_data,
-#        id_venda_alucar
-#    FROM fato_vendas_alucar
-#""", engine_silver)
-
-# Converte id_data para string em ambos DataFrames para garantir compatibilidade
-#df_metas['id_data'] = df_metas['id_data'].astype(str)
-#df_vendas['id_data'] = df_vendas['id_data'].astype(str)
-
-# Conta quantidade de vendas mensais
-#vendas_mensais = df_vendas.groupby('id_data')['id_venda_alucar'].count().reset_index()
-#vendas_mensais.columns = ['id_data', 'vendas_mes']
-
-# Calcula vendas cumulativas desde janeiro
-#df_metas['ano'] = df_metas['id_data'].str[:4]
-#vendas_cum = df_vendas.copy()
-#vendas_cum['ano'] = vendas_cum['id_data'].str[:4]
-#vendas_cum['mes'] = vendas_cum['id_data'].str[4:6]
-
-# Para cada ano, ordena por mês e calcula cumulativo desde janeiro
-#vendas_cum = vendas_cum.groupby(['ano', 'mes'])['id_venda_alucar'].count().reset_index()
-#vendas_cum = vendas_cum.sort_values(['ano', 'mes'])
-#vendas_cum['vendas_cum'] = vendas_cum.groupby('ano')['id_venda_alucar'].cumsum()
-
-# Recria id_data para join
-#vendas_cum['id_data'] = vendas_cum['ano'] + vendas_cum['mes'] + '01'
-#vendas_cum = vendas_cum[['id_data', 'ano', 'vendas_cum']]
-
-# Junta os dados
-#df_metas = df_metas.merge(vendas_mensais, on='id_data', how='left')
-#df_metas = df_metas.merge(vendas_cum, on=['id_data', 'ano'], how='left')
 
 # Calcula meta batida mes
 df_metas['meta_cum_atingida'] = 0
@@ -920,26 +883,21 @@ df_metas = df_metas[[
     'meta_mes_atingida'
 ]]
 
-# Converte todas as colunas para INTEGER no final
-df_metas = df_metas.astype({
-    'id_data': 'int64',
-    'meta_vendas_1_cum': 'int64',
-    'meta_vendas_2_cum': 'int64',
-    'meta_vendas_1_mes': 'int64',
-    'meta_vendas_2_mes': 'int64',
-    'vendas_mes': 'int64',
-    'vendas_cum': 'int64',
-    'meta_cum_atingida': 'int64',
-    'meta_mes_atingida': 'int64'
+# Insere os dados na tabela g_metas_alucar
+df_metas.to_sql('g_metas_alucar', engine_gold, if_exists='replace', index=False, dtype={
+    'id_data': Integer(),
+    'meta_vendas_1_cum': Integer(),
+    'meta_vendas_2_cum': Integer(),
+    'meta_vendas_1_mes': Float(),
+    'meta_vendas_2_mes': Float(),
+    'vendas_mes': Integer(),
+    'vendas_cum': Integer(),
+    'meta_cum_atingida': Integer(),
+    'meta_mes_atingida': Integer()
 })
 
-# Insere os dados na tabela g_metas_alucar
-df_metas.to_sql('g_metas_alucar', engine_gold, if_exists='replace', index=False)
 
-print(df_metas)
-
-
-# In[ ]:
+# In[16]:
 
 
 # g_fato_vendas_alucar_estimativa
@@ -953,17 +911,34 @@ df_estimativa = df_estimativa[[
     'valor_receita_estimativa'
 ]]
 
-# Converte tipos de dados
-df_estimativa = df_estimativa.astype({
-    'id_data': 'int64',
-    'valor_receita_estimativa': 'float'
+# Insere os dados na tabela g_fato_vendas_alucar_estimativa
+df_estimativa.to_sql('g_fato_vendas_alucar_estimativa', engine_gold, if_exists='replace', index=False, dtype={
+    'id_data': Integer(),
+    'valor_receita_estimativa': Float()
 })
 
-# Insere os dados na tabela g_fato_vendas_alucar_estimativa
-df_estimativa.to_sql('g_fato_vendas_alucar_estimativa', engine_gold, if_exists='replace', index=False)
+
+# In[17]:
 
 
-# In[14]:
+# g_fato_consigcar_estimativa
+# Carrega dados da tabela silver fato_consigcar_estimativa
+df_estimativa_consigcar = pd.read_sql_table('fato_consigcar_estimativa', engine_silver)
+
+# Seleciona e renomeia colunas conforme tabela gold
+df_estimativa_consigcar = df_estimativa_consigcar[[
+    'id_data',
+    'valor_receita_estimativa'
+]]
+
+# Insere os dados na tabela g_fato_consigcar_estimativa
+df_estimativa_consigcar.to_sql('g_fato_consigcar_estimativa', engine_gold, if_exists='replace', index=False, dtype={
+    'id_data': Integer(),
+    'valor_receita_estimativa': Float()
+})
+
+
+# In[18]:
 
 
 # Transformar o banco de dados em DBML para acompanhamento da modelagem

@@ -1,2 +1,15 @@
-database/*.db
+# Arquivos de banco de dados
+./database
+
+# Arquivos de configuração
+./config
+
+# Arquivos de Cache
 __pycache__/
+.env
+.venv
+
+# Notebooks
+./etl/00_extract_bronze.ipynb
+./etl/01_transform_silver.ipynb
+./etl/02_load_gold.ipynb

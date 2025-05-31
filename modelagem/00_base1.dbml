@@ -24,7 +24,7 @@ Table 00_metas_plr {
 }
 
 Table 00_receita_consigcar_estimativa {
-  Data DATE
+  Data TEXT
   Valor TEXT
   timestamp TEXT
 }

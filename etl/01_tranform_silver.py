@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[36]:
+# In[84]:
 
 
 # Bibliotecas
@@ -18,7 +18,7 @@ from utils import classificar_despesa
 from utils import convert_iddata
 
 
-# In[17]:
+# In[85]:
 
 
 # Dicionários e variáveis
@@ -28,14 +28,14 @@ dbml_path = "../modelagem/01_silver.dbml"
 
 # ## Criação das tabelas
 
-# In[18]:
+# In[86]:
 
 
 # Cria conexão com banco de dados SQLite
 engine = create_engine(f"sqlite:///{db_path_silver}")
 
 
-# In[19]:
+# In[87]:
 
 
 # Cria tabelas
@@ -173,7 +173,7 @@ with engine.begin() as conn:
         conn.execute(text(stmt))
 
 
-# In[20]:
+# In[88]:
 
 
 # Transformar o banco de dados em DBML para acompanhamento da modelagem
@@ -185,7 +185,7 @@ with open(dbml_path, "w", encoding="utf-8") as f:
 
 # ## Carregamento e transformação dos dados da camada Bronze
 
-# In[21]:
+# In[89]:
 
 
 # Paths dos bancos Bronze e Silver
@@ -194,7 +194,7 @@ db_path_bronze2 = "../database/bronze/00_base2.db"
 db_path_silver  = "../database/silver/01_silver.db"
 
 
-# In[22]:
+# In[90]:
 
 
 # Engines de conexão
@@ -203,7 +203,7 @@ engine_bronze2 = create_engine(f"sqlite:///{db_path_bronze2}")
 engine_silver  = create_engine(f"sqlite:///{db_path_silver}")
 
 
-# In[23]:
+# In[91]:
 
 
 # 1) dim_cliente
@@ -237,7 +237,7 @@ df_clientes = df_clientes.drop_duplicates(subset=['nome_cliente'])
 df_clientes.to_sql("dim_cliente", engine_silver, if_exists="replace", index_label="id_cliente")
 
 
-# In[24]:
+# In[92]:
 
 
 # 2) dim_vendedor
@@ -250,7 +250,7 @@ df_vend = pd.read_sql(
 df_vend.to_sql("dim_vendedor", engine_silver, if_exists="replace", index_label="id_vendedor")
 
 
-# In[25]:
+# In[93]:
 
 
 # 3) dim_tempo
@@ -280,7 +280,7 @@ df_tempo["trimestre"]     = df_tempo["data"].dt.quarter
 df_tempo.to_sql("dim_tempo", engine_silver, if_exists="replace", index=False)
 
 
-# In[ ]:
+# In[94]:
 
 
 # 4) fato_despesas
@@ -341,10 +341,11 @@ df_desp['categoria'] = df_desp['nome_despesa'].apply(classificar_despesa)
 df_desp[["origem", "categoria", "nome_despesa", "valor", "id_data"]].to_sql(
     "fato_despesas", engine_silver, if_exists="replace", index_label="id_despesa"
 )
-print(df_desp.iloc[10:20])
+
+# print(df_desp.iloc[10:20])
 
 
-# In[27]:
+# In[95]:
 
 
 # 5) fato_faturamento_pagseguro
@@ -377,7 +378,7 @@ df_pag[["id_data","valor_faturado"]].to_sql(
 )
 
 
-# In[28]:
+# In[96]:
 
 
 # 6) fato_vendas_alucar
@@ -419,7 +420,7 @@ df_val[["id_venda_alucar", "id_cliente", "id_data", "valor_venda"]].to_sql(
 
 
 
-# In[29]:
+# In[97]:
 
 
 # 7) fato_vendas_consigcar
@@ -483,7 +484,7 @@ df_cons[colunas_fato].to_sql(
 # Se houver valores nulos, pode ser necessário investigar e tratar esses casos
 
 
-# In[30]:
+# In[98]:
 
 
 # 8) fato_vendas_diaria_vendedor
@@ -517,7 +518,7 @@ df_vendas_mensais.to_sql(
 )
 
 
-# In[31]:
+# In[99]:
 
 
 # 9) dim_pagamentos_programados
@@ -546,7 +547,7 @@ df_pagamentos = df_pagamentos.sort_values(['id_venda_consigcar', 'id_data'])
 df_pagamentos.to_sql('dim_pagamentos_programados', engine_silver, if_exists='replace', index=False)
 
 
-# In[ ]:
+# In[100]:
 
 
 # 10) fato_metas_alucar
@@ -578,7 +579,7 @@ df_metas_alu.loc[first_month_mask, 'meta_vendas_2_mes'] = df_metas_alu.loc[first
 df_metas_alu.to_sql('fato_metas_alucar', engine_silver, if_exists='replace', index=False)
 
 
-# In[ ]:
+# In[101]:
 
 
 # 11) fato_metas_consigcar
@@ -610,7 +611,7 @@ df_metas_consig.loc[first_month_mask, 'meta_vendas_2_mes'] = df_metas_consig.loc
 df_metas_consig.to_sql('fato_metas_consigcar', engine_silver, if_exists='replace', index=False)
 
 
-# In[42]:
+# In[102]:
 
 
 # 12) fato_vendas_clientes_alucar_estimativa
@@ -625,11 +626,49 @@ df_vendas_estimativa['id_data'] = convert_iddata(df_vendas_estimativa, 'Data')
 df_vendas_estimativa = df_vendas_estimativa[['id_data', 'Valor_Receita']]
 df_vendas_estimativa = df_vendas_estimativa.rename(columns={'Valor_Receita': 'valor_receita_estimativa'})
 
+# Remover 'R$' e converter para valor numérico
+df_vendas_estimativa['valor_receita_estimativa'] = (
+    df_vendas_estimativa['valor_receita_estimativa']
+    .str.replace('R$', '')
+    .str.replace('.', '')
+    .str.replace(',', '.')
+    .astype(float)
+)
+
 # Salvar na tabela fato_vendas_clientes_alucar_estimativa
 df_vendas_estimativa.to_sql('fato_vendas_clientes_alucar_estimativa', engine_silver, if_exists='replace', index=False)
 
 
-# In[17]:
+# In[103]:
+
+
+# 13) fato_consigcar_estimativa
+# Carregar dados da tabela de estimativa de receita consigcar
+df_consig_estimativa = pd.read_sql_table('00_receita_consigcar_estimativa', engine_bronze1)
+
+# Converter a coluna Data para id_data
+df_consig_estimativa['id_data'] = pd.to_datetime(df_consig_estimativa['Data']).dt.strftime('%Y%m%d').astype('Int64')
+
+# Selecionar e renomear colunas
+df_consig_estimativa = df_consig_estimativa[['id_data', 'Valor']]
+df_consig_estimativa = df_consig_estimativa.rename(columns={'Valor': 'valor_receita_estimativa'})
+
+# Remover 'R$' e converter para valor numérico
+df_consig_estimativa['valor_receita_estimativa'] = (
+    df_consig_estimativa['valor_receita_estimativa']
+    .str.replace('R$', '')
+    .str.replace('.', '')
+    .str.replace(',', '.')
+    .astype(float)
+)
+
+# Salvar na tabela fato_consigcar_estimativa
+df_consig_estimativa.to_sql('fato_consigcar_estimativa', engine_silver, if_exists='replace', index=False)
+
+print(df_consig_estimativa)
+
+
+# In[104]:
 
 
 # Transformar o banco de dados em DBML para acompanhamento da modelagem

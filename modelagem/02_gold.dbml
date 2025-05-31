@@ -3,8 +3,14 @@ Table g_dre_despesas {
   origem TEXT
   categoria TEXT
   nome_despesa TEXT
-  valor INTEGER
+  valor FLOAT
   id_data INTEGER
+}
+
+Table g_fato_consigcar_estimativa {
+  id_data INTEGER
+  valor_receita_estimativa FLOAT
+  sinal TEXT
 }
 
 Table g_fato_financas_anual {
@@ -68,6 +74,7 @@ Table g_fato_financas_mensal_consigcar {
 
 Table g_fato_vendas_alucar_estimativa {
   id_data INTEGER
+  nome TEXT
   valor_receita_estimativa FLOAT
 }
 

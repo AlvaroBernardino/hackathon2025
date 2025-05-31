@@ -36,6 +36,11 @@ Table dim_vendedor {
   nome_vendedor TEXT
 }
 
+Table fato_consigcar_estimativa {
+  id_data BIGINT
+  valor_receita_estimativa FLOAT
+}
+
 Table fato_despesas {
   id_despesa BIGINT
   origem TEXT
@@ -75,6 +80,7 @@ Table fato_vendas_alucar {
 }
 
 Table fato_vendas_clientes_alucar_estimativa {
+  nome TEXT
   id_data BIGINT
   valor_receita_estimativa FLOAT
 }
