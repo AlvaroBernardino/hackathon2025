@@ -5,6 +5,11 @@ Todas as mudanças importantes neste projeto serão documentadas aqui.
 O formato é baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/)
 e este projeto segue a [SemVer](https://semver.org/lang/pt-BR/).
 
+## [1.1.0] - 2025-06-10
+### Corrigido
+- Padronização dos nomes das tabelas.
+- Adaptação do código para uso de arquivos Parquet/Delta Table
+
 ## [1.0.1] - 2025-05-31
 ### Adicionado
 - Sistema ETL finalizado para a primeira versão estável do dashboard

@@ -12,6 +12,7 @@ def edit_sheet(df):
 def sql_to_dbml(engine):
     inspector = inspect(engine)
     dbml = ""
+    relationships = []
 
     # Mapeia referências por tabela e coluna
     foreign_keys_map = {}
@@ -20,7 +21,14 @@ def sql_to_dbml(engine):
             if not fk.get('referred_table'):
                 continue
             for col, ref_col in zip(fk['constrained_columns'], fk['referred_columns']):
-                foreign_keys_map[(table_name, col)] = f"ref: > {fk['referred_table']}.{ref_col}"
+                foreign_keys_map[(table_name, col)] = (fk['referred_table'], ref_col)
+                # Armazena relações para joins explícitos
+                relationships.append({
+                    'from_table': table_name,
+                    'from_col': col,
+                    'to_table': fk['referred_table'],
+                    'to_col': ref_col
+                })
 
     # Monta o DBML
     for table_name in inspector.get_table_names():
@@ -33,26 +41,31 @@ def sql_to_dbml(engine):
 
         for column in columns:
             name = column['name']
-            dtype = str(column['type'])  # Converter para string legível
+            dtype = str(column['type'])
             nullable = column.get('nullable', True)
             is_primary = name in pk_columns
 
             options = []
             if is_primary:
                 options.append("pk")
-                # autoincrement pode não estar presente, então checar com get e garantir bool
                 if column.get('autoincrement', False) or column.get('autoincrement') == 'auto':
                     options.append("increment")
             elif not nullable:
                 options.append("not null")
 
             if (table_name, name) in foreign_keys_map:
-                options.append(foreign_keys_map[(table_name, name)])
+                ref_table, ref_col = foreign_keys_map[(table_name, name)]
+                options.append(f"ref: > {ref_table}.{ref_col}")
 
             options_str = f" [{', '.join(options)}]" if options else ""
             dbml += f"  {name} {dtype}{options_str}\n"
 
         dbml += "}\n\n"
+
+    # Adiciona relações explícitas entre tabelas
+    dbml += "\n// Relacionamentos entre tabelas\n"
+    for rel in relationships:
+        dbml += f"Ref: {rel['from_table']}.{rel['from_col']} > {rel['to_table']}.{rel['to_col']}\n"
 
     return dbml
 

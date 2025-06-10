@@ -1,17 +1,17 @@
-Table dim_cliente {
+Table s_dim_cliente {
   id_cliente BIGINT
   nome_cliente TEXT
   whatsapp TEXT
   empresa TEXT
 }
 
-Table dim_pagamentos_programados {
+Table s_dim_pagamentos_programados {
   id_venda_consigcar BIGINT
   valor FLOAT
   id_data TEXT
 }
 
-Table dim_parcelamento {
+Table s_dim_parcelamento {
   id_parcelamento INTEGER [pk]
   num_parcelas SMALLINT
   valor_parcela DECIMAL(10, 2)
@@ -20,7 +20,7 @@ Table dim_parcelamento {
   data_ultima_parcela INTEGER
 }
 
-Table dim_tempo {
+Table s_dim_tempo {
   id_data BIGINT
   data DATETIME
   dia INTEGER
@@ -31,17 +31,17 @@ Table dim_tempo {
   trimestre INTEGER
 }
 
-Table dim_vendedor {
+Table s_dim_vendedor {
   id_vendedor BIGINT
   nome_vendedor TEXT
 }
 
-Table fato_consigcar_estimativa {
+Table s_fato_consigcar_estimativa {
   id_data BIGINT
   valor_receita_estimativa FLOAT
 }
 
-Table fato_despesas {
+Table s_fato_despesas {
   id_despesa BIGINT
   origem TEXT
   categoria TEXT
@@ -50,13 +50,13 @@ Table fato_despesas {
   id_data BIGINT
 }
 
-Table fato_faturamento_pagseguro {
+Table s_fato_faturamento_pagseguro {
   id_faturamento BIGINT
   id_data BIGINT
   valor_faturado FLOAT
 }
 
-Table fato_metas_alucar {
+Table s_fato_metas_alucar {
   id_data BIGINT
   meta_vendas_1_cum BIGINT
   meta_vendas_2_cum BIGINT
@@ -64,7 +64,7 @@ Table fato_metas_alucar {
   meta_vendas_2_mes FLOAT
 }
 
-Table fato_metas_consigcar {
+Table s_fato_metas_consigcar {
   id_data BIGINT
   meta_vendas_1_cum BIGINT
   meta_vendas_2_cum BIGINT
@@ -72,20 +72,19 @@ Table fato_metas_consigcar {
   meta_vendas_2_mes FLOAT
 }
 
-Table fato_vendas_alucar {
+Table s_fato_vendas_alucar {
   id_venda_alucar BIGINT
   id_cliente BIGINT
   id_data BIGINT
   valor_venda FLOAT
 }
 
-Table fato_vendas_clientes_alucar_estimativa {
-  nome TEXT
+Table s_fato_vendas_clientes_alucar_estimativa {
   id_data BIGINT
   valor_receita_estimativa FLOAT
 }
 
-Table fato_vendas_consigcar {
+Table s_fato_vendas_consigcar {
   id_venda_consigcar BIGINT
   id_cliente BIGINT
   tipo_produto TEXT
@@ -97,7 +96,7 @@ Table fato_vendas_consigcar {
   data_ultima_parcela BIGINT
 }
 
-Table fato_vendas_diaria_vendedor {
+Table s_fato_vendas_diaria_vendedor {
   id_vendedor BIGINT
   id_data BIGINT
   total_vendas BIGINT

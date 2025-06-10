@@ -1,4 +1,4 @@
-Table 00_vendas_clientes_consigcar {
+Table b_vendas_clientes_consigcar {
   Data do Pagamento DATE
   Tipo Produto TEXT
   Nome TEXT

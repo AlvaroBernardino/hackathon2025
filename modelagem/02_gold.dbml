@@ -74,7 +74,6 @@ Table g_fato_financas_mensal_consigcar {
 
 Table g_fato_vendas_alucar_estimativa {
   id_data INTEGER
-  nome TEXT
   valor_receita_estimativa FLOAT
 }
 
