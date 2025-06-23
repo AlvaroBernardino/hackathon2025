@@ -1,43 +1,91 @@
-# Hackathon2025
-Repositório do projeto proposto no Hackathon 2025 da EmpregaDados
-=============================================================
-## 🚀 Objetivo
-Construir um pipeline ETL que:
-- Extraia dados brutos de diferentes fontes (CSV);
-- Faça o tratamento e padronização das colunas (camada *Silver*);
-- Entregue os dados prontos para visualização e análises (*Gold*);
-- Geração de dashboards para tomada de decisões;
-- Garanta rastreabilidade, escalabilidade e reprodutibilidade.
 
-## 🧪 Como Rodar
+# 🚀 Hackathon 2025 – ETL e Dashboard Empresarial (AluCar & ConsigCar)
+
+Repositório do projeto desenvolvido durante o **Hackathon 2025 da EmpregaDados**, com foco na construção de um pipeline ETL completo e um dashboard de análise de performance e indicadores financeiros com dados inspirados em situações reais.
+
+🔗 [Clique aqui para visualizar o dashboard no Power BI](https://app.fabric.microsoft.com/view?r=eyJrIjoiNzk1YzdiM2UtMTQ0My00NjFmLWFlNGEtMTMyYzNlMTlhZDc4IiwidCI6IjM0YWIwNGEzLTFlYzAtNGE2Yy1hZjhiLWI2ZjIxYzYwMDk2ZiJ9)
+
+---
+
+## 📄 Descrição
+
+Este é um sistema **ETL em Python** capaz de extrair dados de duas fontes distintas:  
+📊 [Base 1 (Google Sheets)](https://docs.google.com/spreadsheets/d/1cucnW4yVosO5n5BFgwXYv6rVy8yj6NTasM83RTCMOug/edit?gid=373473243#gid=373473243)  
+📁 [Base 2 (Excel - SharePoint)](https://empregadados-my.sharepoint.com/personal/bianca_empregadados_com_br/_layouts/15/Doc.aspx?sourcedoc=%7Ba7b62e96-e6e8-4d57-843c-3694c611c6b2%7D)
+
+Após a extração, os dados são tratados, integrados em uma arquitetura **Star Schema** e disponibilizados para um [dashboard em Power BI](https://app.fabric.microsoft.com/view?r=eyJrIjoiNzk1YzdiM2UtMTQ0My00NjFmLWFlNGEtMTMyYzNlMTlhZDc4IiwidCI6IjM0YWIwNGEzLTFlYzAtNGE2Yy1hZjhiLWI2ZjIxYzYwMDk2ZiJ9), que apresenta:
+
+- 📈 Indicadores de metas e performance de vendas/vendedores  
+- 💰 Métricas financeiras consolidadas das empresas fictícias **AluCar** e **ConsigCar**
+
+O sistema possui duas versões:
+- 🧪 **Protótipo local**: Utiliza SQLite + SQLAlchemy para testes e simulações.
+- ☁️ **Versão final (main)**: Roda na Microsoft Fabric com atualização diária automatizada via Data Factory e Spark.
+
+O projeto foi desenvolvido entre maio e junho de 2025 pelos membros da **Equipe X** (veja seção de autores).
+
+---
+
+## 🎯 Objetivos
+
+Construir um pipeline ETL que:
+- 📥 Extraia dados brutos de diferentes fontes (CSV/Excel/Sheets)  
+- 🧼 Realize tratamento e padronização dos dados (camada *Silver*)  
+- 📊 Disponibilize dados prontos para visualização e análise (camada *Gold*)  
+- 📉 Gere dashboards para apoiar decisões estratégicas  
+- 🔁 Garanta rastreabilidade, escalabilidade e reprodutibilidade
+
+---
+
+## 🛠️ Tecnologias Utilizadas
+
+- Python (Pandas, SQLAlchemy)
+- Microsoft Fabric (Data Factory, Spark, Lakehouse)
+- Power BI
+- SQLite (versão protótipo)
+- GitHub (CI/CD e versionamento)
+
+---
+
+## 🧪 Como Rodar Localmente (Versão Protótipo)
 
 1. Clone o repositório:
 ```bash
 git clone https://github.com/AlvaroBernardino/hackathon2025
 cd hackathon2025
 ```
+
 2. Instale as dependências:
 ```bash
 pip install -r requirements.txt
 ```
-3. Execute os notebooks
-- Execute os notebooks da pasta "etl" na ordem numérica
 
-4. Verifique os bancos de dados locais
-- Utilize os scripts na pasta "tests" para verificar os bancos de dados através de "SELECT"
+3. Execute os notebooks (em ordem numérica) localizados na pasta `etl`.
 
-## 🧪 Diretórios
- - *config*: Arquivos de configuração, credenciais
-  - *database*: Arquivos de bancos de dados
- - *etl*: Scripts de ETL
- - *mkdown*: Arquivos de texto que podem ser úteis
- - *modelagem*: Arquivos .dbml para visualização fácil dos schemas
- - *retired*: Scripts e snippets de legado, que não serão utilizados no pipeline
- - *changelog.md*: Histórico de modificações. Nas mensagens dos commits, colocar simplesmente o nome da versão (Ex.: 0.2.0) e colocar as mudanças neste arquivo.
+4. Verifique os bancos locais com os scripts da pasta `tests`.
+
+---
+
+## 📁 Estrutura de Diretórios
+
+```
+hackathon2025/
+├── config/         # Arquivos de configuração e credenciais
+├── database/       # Bancos de dados locais (SQLite)
+├── etl/            # Notebooks e scripts de transformação
+├── mkdown/         # Arquivos markdown auxiliares
+├── modelagem/      # Modelos .dbml dos esquemas relacionais
+├── retired/        # Scripts legados não utilizados no pipeline final
+├── changelog.md    # Histórico de versões e alterações
+```
 
 ## ✍️ Autores
+
 - [Álvaro Bernardino](https://www.linkedin.com/in/alvaro-bernardino/)
 - [Caio Prates](https://www.linkedin.com/in/caiolpfreitas/)
-- [Diego Simon](https://www.linkedin.com/in/diego-simon/)
 - [Laerte Rocha Neves](https://www.linkedin.com/in/laerterochanp/)
 - [Luiz Henrique Popoff](https://www.linkedin.com/in/luizpopoff/)
+
+---
+
+> Projeto criado com fins educacionais e para fins de demonstração técnica em processos seletivos e portfólio profissional.
