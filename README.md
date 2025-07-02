@@ -3,7 +3,7 @@
 
 Repositório do projeto desenvolvido durante o **Hackathon 2025 da EmpregaDados**, com foco na construção de um pipeline ETL completo e um dashboard de análise de performance e indicadores financeiros com dados inspirados em situações reais.
 
-🔗 [Clique aqui para visualizar o dashboard no Power BI](https://app.fabric.microsoft.com/view?r=eyJrIjoiNzk1YzdiM2UtMTQ0My00NjFmLWFlNGEtMTMyYzNlMTlhZDc4IiwidCI6IjM0YWIwNGEzLTFlYzAtNGE2Yy1hZjhiLWI2ZjIxYzYwMDk2ZiJ9)
+🔗 [Clique aqui para visualizar o dashboard no Power BI](https://app.fabric.microsoft.com/view?r=eyJrIjoiMzU1NTYzMjYtODM1OC00YmI5LWJlZmUtNWQ3MzY2NjNhZDY1IiwidCI6IjM0YWIwNGEzLTFlYzAtNGE2Yy1hZjhiLWI2ZjIxYzYwMDk2ZiJ9)
 
 ---
 
