@@ -71,11 +71,13 @@ pip install -r requirements.txt
 ```
 hackathon2025/
 ├── config/         # Arquivos de configuração e credenciais
-├── database/       # Bancos de dados locais (SQLite)
+├── database/       # Estrutura de pastas para banco de dados local
+├── docs/           # Documentação do projeto 
 ├── etl/            # Notebooks e scripts de transformação
 ├── mkdown/         # Arquivos markdown auxiliares
 ├── modelagem/      # Modelos .dbml dos esquemas relacionais
 ├── retired/        # Scripts legados não utilizados no pipeline final
+├── tests/          # Scripts para testes e verificação do banco de dados local
 ├── changelog.md    # Histórico de versões e alterações
 ```
 
