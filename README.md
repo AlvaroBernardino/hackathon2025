@@ -3,11 +3,11 @@
 
 Repositório do projeto desenvolvido durante o **Hackathon 2025 da EmpregaDados**, com foco na construção de um pipeline ETL completo e um dashboard de análise de performance e indicadores financeiros com dados inspirados em situações reais.
 
-🔗 [Clique aqui para visualizar o dashboard no Power BI](https://app.fabric.microsoft.com/view?r=eyJrIjoiMzU1NTYzMjYtODM1OC00YmI5LWJlZmUtNWQ3MzY2NjNhZDY1IiwidCI6IjM0YWIwNGEzLTFlYzAtNGE2Yy1hZjhiLWI2ZjIxYzYwMDk2ZiJ9) 
+📊 [Clique aqui para visualizar o dashboard no Power BI](https://app.fabric.microsoft.com/view?r=eyJrIjoiMzU1NTYzMjYtODM1OC00YmI5LWJlZmUtNWQ3MzY2NjNhZDY1IiwidCI6IjM0YWIwNGEzLTFlYzAtNGE2Yy1hZjhiLWI2ZjIxYzYwMDk2ZiJ9) 
 
-🔗 [Clique aqui para acessar a documentação do dashboard](https://github.com/AlvaroBernardino/hackathon2025/blob/main/docs/dashboard.pdf) 
+📋 [Clique aqui para acessar a documentação do dashboard](https://github.com/AlvaroBernardino/hackathon2025/blob/main/docs/dashboard.pdf) 
 
-🔗 [Clique aqui para acessar a apresentação do projeto](https://github.com/AlvaroBernardino/hackathon2025/blob/main/docs/Equipe%20X%20-%20Hackathon%202025%20-%2002_07_2025.pdf)
+🖥️ [Clique aqui para acessar a apresentação do projeto](https://github.com/AlvaroBernardino/hackathon2025/blob/main/docs/Equipe%20X%20-%20Hackathon%202025%20-%2002_07_2025.pdf)
 
 
 ---
