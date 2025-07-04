@@ -79,7 +79,6 @@ hackathon2025/
 ├── database/       # Estrutura de pastas para banco de dados local
 ├── docs/           # Documentação do projeto 
 ├── etl/            # Notebooks e scripts de transformação
-├── mkdown/         # Arquivos markdown auxiliares
 ├── modelagem/      # Modelos .dbml dos esquemas relacionais
 ├── retired/        # Scripts legados não utilizados no pipeline final
 ├── tests/          # Scripts para testes e verificação do banco de dados local
