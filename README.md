@@ -24,7 +24,7 @@ Após a extração, os dados são tratados, integrados em uma arquitetura **Star
 - 💰 Métricas financeiras consolidadas das empresas fictícias **AluCar** e **ConsigCar**
 
 O sistema possui duas versões:
-- 🧪 **Protótipo local**: Utiliza SQLite + SQLAlchemy para testes e simulações.
+- 🧪 **Protótipo local**: Utiliza SQLite + SQLAlchemy para testes e simulações. Pode ser instalado  e utilizado normalmente on premises.
 - ☁️ **Versão final (main)**: Roda na Microsoft Fabric com atualização diária automatizada via Data Factory e Spark.
 
 O projeto foi desenvolvido entre maio e junho de 2025 pelos membros da **Equipe X** (veja seção de autores).
