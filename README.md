@@ -6,7 +6,6 @@
 
 🖥️ [Clique aqui para acessar a apresentação do projeto](https://github.com/AlvaroBernardino/hackathon2025/blob/main/docs/Equipe%20X%20-%20Hackathon%202025%20-%2002_07_2025.pdf)
 
-
 ---
 
 ## 📄 Descrição
