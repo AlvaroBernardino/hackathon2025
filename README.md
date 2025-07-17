@@ -1,9 +1,11 @@
+![Banner](img/banner_hackathon.jpg)
 
-# 🚀 Hackathon 2025 – ETL e Dashboard Empresarial (AluCar & ConsigCar)
+📊 [Clique aqui para visualizar o dashboard no Power BI](https://app.fabric.microsoft.com/view?r=eyJrIjoiMzU1NTYzMjYtODM1OC00YmI5LWJlZmUtNWQ3MzY2NjNhZDY1IiwidCI6IjM0YWIwNGEzLTFlYzAtNGE2Yy1hZjhiLWI2ZjIxYzYwMDk2ZiJ9) 
 
-Repositório do projeto desenvolvido durante o **Hackathon 2025 da EmpregaDados**, com foco na construção de um pipeline ETL completo e um dashboard de análise de performance e indicadores financeiros com dados inspirados em situações reais.
+📋 [Clique aqui para acessar a documentação do dashboard](https://github.com/AlvaroBernardino/hackathon2025/blob/main/docs/dashboard.pdf) 
 
-🔗 [Clique aqui para visualizar o dashboard no Power BI](https://app.fabric.microsoft.com/view?r=eyJrIjoiNzk1YzdiM2UtMTQ0My00NjFmLWFlNGEtMTMyYzNlMTlhZDc4IiwidCI6IjM0YWIwNGEzLTFlYzAtNGE2Yy1hZjhiLWI2ZjIxYzYwMDk2ZiJ9)
+🖥️ [Clique aqui para acessar a apresentação do projeto](https://github.com/AlvaroBernardino/hackathon2025/blob/main/docs/Equipe%20X%20-%20Hackathon%202025%20-%2002_07_2025.pdf)
+
 
 ---
 
@@ -19,8 +21,8 @@ Após a extração, os dados são tratados, integrados em uma arquitetura **Star
 - 💰 Métricas financeiras consolidadas das empresas fictícias **AluCar** e **ConsigCar**
 
 O sistema possui duas versões:
-- 🧪 **Protótipo local**: Utiliza SQLite + SQLAlchemy para testes e simulações.
-- ☁️ **Versão final (main)**: Roda na Microsoft Fabric com atualização diária automatizada via Data Factory e Spark.
+- 🧪 **Protótipo local**: Utiliza SQLite + SQLAlchemy para testes e simulações. Pode ser instalado  e utilizado normalmente on premises.
+- ☁️ **Versão final (main)**: Roda na Microsoft Fabric com atualização diária automatizada. Essa é a versão disponibilizada pelos links neste ReadMe.
 
 O projeto foi desenvolvido entre maio e junho de 2025 pelos membros da **Equipe X** (veja seção de autores).
 
@@ -71,11 +73,12 @@ pip install -r requirements.txt
 ```
 hackathon2025/
 ├── config/         # Arquivos de configuração e credenciais
-├── database/       # Bancos de dados locais (SQLite)
+├── database/       # Estrutura de pastas para banco de dados local
+├── docs/           # Documentação do projeto 
 ├── etl/            # Notebooks e scripts de transformação
-├── mkdown/         # Arquivos markdown auxiliares
 ├── modelagem/      # Modelos .dbml dos esquemas relacionais
 ├── retired/        # Scripts legados não utilizados no pipeline final
+├── tests/          # Scripts para testes e verificação do banco de dados local
 ├── changelog.md    # Histórico de versões e alterações
 ```
 

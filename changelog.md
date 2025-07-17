@@ -14,6 +14,10 @@ e este projeto segue a [SemVer](https://semver.org/lang/pt-BR/).
 ### Adicionado
 - Sistema ETL finalizado para a primeira versão estável do dashboard
 
+## [0.5.0] - 2025-05-28
+### Adicionado
+- Agregações adicionais na camada Gold
+
 ## [0.4.0] - 2025-05-19
 ### Adicionado
 - Implementação dos scripts da camada Gold, estruturando as tabelas consolidadas e visões de negócio.
